@@ -6,7 +6,7 @@ import http from 'http';
 
 import morgan from "morgan";
 import cors from "cors";
-import connectDB from "./src/config/dbConnection.js";
+// import connectDB from "./src/config/dbConnection.js";
 // import adminRoutes from "./src/routes/adminRoutes.js";
 // import userRoutes from "./src/routes/userRoutes.js";
 //swaggerr---
@@ -17,7 +17,7 @@ import connectDB from "./src/config/dbConnection.js";
 const PORT = process.env.PORT;
 dotenv.config();  
 
-connectDB();
+// connectDB();
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
