@@ -8,23 +8,31 @@ const userSchema = new Schema(
       type: String,
       default: null
     },
-    full_name: {
+    first_name: {
       type: String,
       default: null
     },
+    last_name: {
+        type: String,
+        default: null
+      },
     email_verified: {
       type: Number,
       default: 0,
     },
-    email_otp: {
+    phone_verified: {
+        type: Number,
+        default: 0,
+      },
+    otp: {
       type: Number,
       default: null
     },
     role: {
       type: Number,
       default: 0,
-      enum: [0, 1, 2],
-      description: "0-> Customer 1-> Barber 2 -> Shop Owner",
+      enum: [0, 1],
+      description: "0-> Buyer 1-> Seller",
     },
     is_active: {
       type: Number,
@@ -50,67 +58,6 @@ const userSchema = new Schema(
       enum: [0, 1],
       description: "0-> No 1-> Yes",
     },
-    is_available:{
-      type: Number,
-      default: 1,
-      enum: [0, 1],
-      description: "0-> No 1-> Yes",
-    },
-    is_password_updated:{
-      type: Number,
-      default: null,
-      enum: [0, 1],
-      description: "0-> No 1-> Yes",
-    },
-    // available_days: {
-    //   type: [Number],
-    //   enum: [0, 1, 2, 3, 4, 5, 6],
-    //   description:
-    //     "0 -> Sun, 1 -> Mon, 2 -> Tues, 3 -> Wed, 4 -> Thu, 5 -> Fri, 6 -> Sat",
-    //   default: [],
-    // },
-
-    available_days: {
-      type: [
-        {
-          day: {
-            type: Number,
-            enum: [0, 1, 2, 3, 4, 5, 6, 7], // 0 -> Sun, 1 -> Mon, ..., 6 -> Sat
-            required: true,
-            description: "Day of the week",
-          },
-          opening_time: {
-            type: String,
-            required: true,
-            description: "Opening time for the day",
-          },
-          closing_time: {
-            type: String,
-            required: true,
-            description: "Closing time for the day",
-          },
-        },
-      ],
-      default: [],
-      description:
-        "Array of objects representing the schedule for each day of the week.",
-    },    
-    specialization: {
-      type: [Schema.Types.ObjectId],
-      ref: 'Specialization',
-      default: null,
-    },
-    shop:{
-      type: Schema.Types.ObjectId,
-      ref: "Shop",
-      default: null
-    },
-    allow_notification:{
-      type: Number,
-      default: 1,
-      enum: [0, 1],
-      description: "0-> No 1-> Yes",
-    },
     device_token: {
       type: String,
       default: null,
@@ -124,10 +71,6 @@ const userSchema = new Schema(
     device_model: {
       type: String, 
       default: null, 
-    },
-    socketId:{
-      type: String,
-      default: null
     },
     login_type: {
       type: Number,
