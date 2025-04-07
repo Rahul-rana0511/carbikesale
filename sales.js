@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/public", express.static("public"));
 app.use(morgan('dev'));
 app.get('/', (req, res) => {
-    res.send('Hello, Express!');
+    res.status(200).json({message: "very goood", status: 200});
   });
 
 // app.use("/api/admin", adminRoutes);
