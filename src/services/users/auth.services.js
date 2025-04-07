@@ -1,6 +1,5 @@
-import groomingServices from "../constant/specializations.js";
-import * as Model from "../models/index.js";
-import { errorRes, successRes } from "../utils/response.js";
+import * as Model from "../../models/index.js";
+import { errorRes, successRes } from "../../utils/response.js";
 import bcrypt from "bcrypt";
 import JWT from "jsonwebtoken";
 import "dotenv/config";
