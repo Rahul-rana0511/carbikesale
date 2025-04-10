@@ -23,59 +23,39 @@ const userServices = {
   registerUser: async (req, res) => {
     try {
       const {
-        email,
+        phone_number,
+        country_code,
         password
       } = req.body;
-      const isEmailExist = await Model.User.findOne({
-        email: email.toLowerCase(),
+      const isNumberExists = await Model.User.findOne({
+        phone_number: phone_number,
+        country_code: country_code,
       });
-      console.log(isEmailExist, "email");
-      if (isEmailExist) {
-        if (!isEmailExist.email_verified) {
-          const otp = Math.floor(1000 + Math.random() * 9000);
-          isEmailExist.email_otp = otp;
-          await isEmailExist.save();
-        //   sendEmail({
-        //     otp,
-        //     email: isEmailExist.email,
-        //     project_name: process.env.PROJECT_NAME,
-        //     type: "register",
-        //     user: isEmailExist,
-        //   });
-          return successRes(
+      if (isNumberExists) {
+        if (isNumberExists.phone_verified) {
+          return errorRes(
             res,
-            200,
-            "OTP has been sent to your provided email",
-            isEmailExist
+            400,
+            "Phone number already exists"
           );
-        } else {
-          return errorRes(res, 400, "Email already exists");
         }
       }
-
       // Hash password
       const hashPassword = await bcrypt.hash(password, 10);
-      const email_otp = Math.floor(1000 + Math.random() * 9000);
+      const otp = Math.floor(1000 + Math.random() * 9000);
 
       // Create new user
       const newUser = await Model.User.create({
-        email: email.toLowerCase(),
+        ...req.body,
         password: hashPassword,
-        email_otp,
-        ...req.body
+        otp
       });
-    //   sendEmail({
-    //     otp: newUser.email_otp,
-    //     email: newUser.email,
-    //     project_name: process.env.PROJECT_NAME,
-    //     type: "register",
-    //     user: newUser,
-    //   });
+   
 
       return successRes(
         res,
         200,
-        "OTP has been sent to your provided email",
+        "OTP has been sent to your provided phone number",
         newUser
       );
     } catch (err) {
@@ -84,10 +64,11 @@ const userServices = {
   },
   login: async (req, res) => {
     try {
-      const { email, password, device_token, device_type, device_model } =
+      const { phone_number,country_code, password, device_token, device_type, device_model } =
         req.body;
       const user = await Model.User.findOne({
-        email: email.toLowerCase(),
+        phone_number: phone_number,
+        country_code: country_code,
       });
       if (!user) {
         return errorRes(res, 404, "User doesn't exists");
@@ -102,20 +83,20 @@ const userServices = {
 
       const otp = Math.floor(1000 + Math.random() * 9000);
       // Check if the user is verified and active
-      if (!user.email_verified) {
-        user.email_otp = otp;
+      if (!user.phone_verified) {
+        user.otp = otp;
         await user.save();
-        sendEmail({
-          otp: otp,
-          email: user.email,
-          project_name: process.env.PROJECT_NAME,
-          type: "register",
-          user: user,
-        });
+        // sendEmail({
+        //   otp: otp,
+        //   email: user.email,
+        //   project_name: process.env.PROJECT_NAME,
+        //   type: "register",
+        //   user: user,
+        // });
         return successRes(
           res,
           200,
-          "OTP has been sent to your provided email",
+          "OTP has been sent to your provided phone number",
           user
         );
       }
@@ -140,7 +121,7 @@ const userServices = {
       user.device_token = device_token;
       user.device_model = device_model;
       user.device_type = device_type;
-      user.email_otp = otp;
+      user.otp = otp;
       await user.save();
       const responseObj = user.toObject();
       const response = {
@@ -155,25 +136,25 @@ const userServices = {
   },
   forgetpassword: async (req, res) => {
     try {
-      const { email } = req.body;
-      const user = await Model.User.findOne({ email: email.toLowerCase() });
+      const { phone_number, country_code } = req.body;
+      const user = await Model.User.findOne({ phone_number, country_code});
       if (!user) {
         return errorRes(res, 404, "User Not Found");
       }
       const otp = Math.floor(1000 + Math.random() * 9000);
-      user.email_otp = otp;
+      user.otp = otp;
       const updateData = await user.save();
-      sendEmail({
-        otp: user.email_otp,
-        email: user.email,
-        project_name: process.env.PROJECT_NAME,
-        type: "forgotPassword",
-        user: user,
-      });
+      // sendEmail({
+      //   otp: user.email_otp,
+      //   email: user.email,
+      //   project_name: process.env.PROJECT_NAME,
+      //   type: "forgotPassword",
+      //   user: user,
+      // });
       return successRes(
         res,
         200,
-        "OTP has been sent to your provided email",
+        "OTP has been sent to your provided phone number",
         updateData
       );
     } catch (err) {
@@ -218,20 +199,20 @@ const userServices = {
       const otp = Math.floor(1000 + Math.random() * 9000);
       const updateData = await Model.User.findByIdAndUpdate(
         userId,
-        { $set: { email_otp: otp } },
+        { $set: { otp: otp } },
         { new: true }
       );
-      sendEmail({
-        otp: otp,
-        email: user.email,
-        project_name: process.env.PROJECT_NAME,
-        type: "resendOTP",
-        user: user,
-      });
+      // sendEmail({
+      //   otp: otp,
+      //   email: user.email,
+      //   project_name: process.env.PROJECT_NAME,
+      //   type: "resendOTP",
+      //   user: user,
+      // });
       return successRes(
         res,
         200,
-        "OTP has been Resent to your provided email",
+        "OTP has been Resent to your provided phone number",
         updateData
       );
     } catch (err) {
@@ -246,8 +227,9 @@ const userServices = {
       if (!user) {
         return errorRes(res, 404, "User not found");
       }
-      if (otp == user.email_otp) {
-        user.email_verified = 1;
+      if (otp == user.otp) {
+        user.phone_verified = 1;
+        user.otp = null;
         const token = JWT.sign({ userId: user._id }, JWT_SECRET_KEY, {
           expiresIn: "30d",
         });
@@ -257,7 +239,7 @@ const userServices = {
           token,
         };
         await user.save();
-        return successRes(res, 200, "Email verified successfully.", response);
+        return successRes(res, 200, "Phone number verified successfully.", response);
       } else {
         return errorRes(res, 400, "Invalid OTP");
       }

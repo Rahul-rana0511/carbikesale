@@ -1,17 +1,12 @@
 {
     "openapi": "3.1.0",
     "info": {
-      "title": "La vid Barber shop Documentation",
+      "title": "Car & Bike Sale Documentation",
       "version": "1.0.0"
     },
     "servers": [
-     
       {
-        "url": "https://lavid-barber-api.bosselt.com/",
-        "description": "live Server"
-      },
-      {
-        "url": "http://localhost:4045/",
+        "url": "http://localhost:4080/",
         "description": "live Server"
       }
     ],
@@ -21,7 +16,7 @@
         "description": "Upload Images"
       },
       {
-        "name": "Login",
+        "name": "Authentication",
         "description": "Login Flow related apis"
       },
       {
@@ -37,10 +32,13 @@
         "description": "Setting Flow related apis"
       }
     ],
-    "paths": {
+   
+    "paths":{
       "/api/user/uploadImage": {
         "post": {
-          "tags": ["Image"],
+          "tags": [
+            "Image"
+          ],
           "summary": "Upload Images Api",
           "requestBody": {
             "content": {
@@ -67,107 +65,11 @@
           }
         }
       },
-      "/api/user/getSpecialization": {
-        "get": {
-          "tags": ["Login"],
-          "summary": "Get Specialization Api",
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          }
-        }
-      },
-      "/api/user/createAdmin": {
-        "get": {
-          "tags": ["Login"],
-          "summary": "Create Super Admin Api",
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          }
-        }
-      },
-      "/api/user/createBarber": {
-        "post": {
-          "tags": ["Login"],
-          "summary": "create Barber Api",
-          "requestBody": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/createBarber"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          }
-        }
-      },
-      "/api/user/addUser": {
-        "post": {
-          "tags": ["Customer Home"],
-          "summary": "Add User Api",
-          "requestBody": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/addUser"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          }
-        }
-      },
       "/api/user/register": {
         "post": {
-          "tags": ["Login"],
+          "tags": [
+            "Authentication"
+          ],
           "summary": "Register Api",
           "requestBody": {
             "content": {
@@ -196,7 +98,9 @@
       },
       "/api/user/login": {
         "post": {
-          "tags": ["Login"],
+          "tags": [
+            "Authentication"
+          ],
           "summary": "login Api",
           "requestBody": {
             "content": {
@@ -223,9 +127,12 @@
           }
         }
       },
-      "/api/user/forgetPassword": {
+      
+      "/api/user/forgetpassword": {
         "post": {
-          "tags": ["Login"],
+          "tags": [
+            "Authentication"
+          ],
           "summary": "Forgot Password Api",
           "requestBody": {
             "content": {
@@ -253,8 +160,10 @@
         }
       },
       "/api/user/resetPassword": {
-        "put": {
-          "tags": ["Login"],
+        "post": {
+          "tags": [
+            "Authentication"
+          ],
           "summary": "Reset Password Api",
           "requestBody": {
             "content": {
@@ -283,8 +192,10 @@
       },
       "/api/user/verifyOtp": {
         "post": {
-          "tags": ["Login"],
-          "summary": "User verify Api",
+          "tags": [
+            "Authentication"
+          ],
+          "summary": "Verify Otp Api",
           "requestBody": {
             "content": {
               "application/json": {
@@ -312,8 +223,10 @@
       },
       "/api/user/resendOtp": {
         "post": {
-          "tags": ["Login"],
-          "summary": "User verify Api",
+          "tags": [
+            "Authentication"
+          ],
+          "summary": "Resend Otp Api",
           "requestBody": {
             "content": {
               "application/json": {
@@ -337,1132 +250,6 @@
               "description": "Internal server error - Something went wrong on the server side"
             }
           }
-        }
-      },
-      "/api/user/customerHome": {
-        "get": {
-          "tags": ["Customer Home"],
-          "summary": "Customer Home Api",
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          }
-        }
-      },
-      "/api/user/createShop": {
-        "post": {
-          "tags": ["Shop"],
-          "summary": "Create Shop Api",
-          "requestBody": {
-            "content": {
-              "multipart/form-data": {
-                "schema": {
-                  "$ref": "#/components/schemas/createShop"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/editShop": {
-        "put": {
-          "tags": ["Shop"],
-          "summary": "Edit Shop Api",
-          "requestBody": {
-            "content": {
-              "multipart/form-data": {
-                "schema": {
-                  "$ref": "#/components/schemas/editShop"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/getBarbersByLocation/{shopId}": {
-        "get": {
-          "tags": ["Customer Home"],
-          "summary": "Get Barber by location Api",
-          "parameters": [{ "$ref": "#/components/parameters/shopId" }],
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/getSlots": {
-        "get": {
-          "tags": ["Customer Home"],
-          "summary": "Get Slots Api",
-          "parameters": [
-            { "$ref": "#/components/parameters/date" },
-            { "$ref": "#/components/parameters/barberId" }
-          ],
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/barberAvailableSlots": {
-        "get": {
-          "tags": ["Settings"],
-          "summary": "Get barber available slots Api",
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/getBarberAvailability": {
-        "get": {
-          "tags": ["Customer Home"],
-          "summary": "Get Barber availability by date Api",
-          "parameters": [
-            { "$ref": "#/components/parameters/month" },
-            { "$ref": "#/components/parameters/year" },
-            { "$ref": "#/components/parameters/barberId" }
-          ],
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/bookSlot": {
-        "post": {
-          "tags": ["Customer Home"],
-          "summary": "Book Slot Api",
-          "requestBody": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/bookSlot"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/getBookingDetails/{bookingId}": {
-        "get": {
-          "tags": ["Customer Home"],
-          "summary": "get Booking Details Api",
-          "parameters": [
-            { "$ref": "#/components/parameters/bookingId" }
-          ],
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/getShops": {
-        "get": {
-          "tags": ["Shop"],
-          "summary": "Get Shop listing Api",
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/getShopDetails/{shopId}": {
-        "get": {
-          "tags": ["Shop"],
-          "summary": "Get Shop Details Api",
-          "parameters": [{ "$ref": "#/components/parameters/shopId" }],
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/delShop/{shopId}": {
-        "delete": {
-          "tags": ["Shop"],
-          "summary": "Delete Shop Api",
-          "parameters": [{ "$ref": "#/components/parameters/shopId" }],
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/createPassword": {
-        "put": {
-          "tags": ["Profile"],
-          "summary": "Create Password for Barber Api",
-          "requestBody": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/createPassword"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/createProfile": {
-        "put": {
-          "tags": ["Profile"],
-          "summary": "Create And Edit Profile Api",
-          "requestBody": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/createProfile"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/logout": {
-        "get": {
-          "tags": ["Settings"],
-          "summary": "logout Api",
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/delAccount": {
-        "delete": {
-          "tags": ["Settings"],
-          "summary": "delete Account Api",
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/myProfile": {
-        "get": {
-          "tags": ["Settings"],
-          "summary": "Get Profile Api",
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/myTeams": {
-        "get": {
-          "tags": ["Settings"],
-          "summary": "Get My Team Api",
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/deleteBarber": {
-        "delete": {
-          "tags": ["Settings"],
-          "summary": "delete Barber Account Api",
-          "parameters": [{ "$ref": "#/components/parameters/userId" }],
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/getBarberDetail": {
-        "get": {
-          "tags": ["Settings"],
-          "summary": "Get My Team Api",
-          "parameters": [{ "$ref": "#/components/parameters/userId" }],
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/delService": {
-        "delete": {
-          "tags": ["Service Flow"],
-          "summary": "delete Service Api",
-          "parameters": [{ "$ref": "#/components/parameters/serviceId" }],
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/addServices": {
-        "put": {
-          "tags": ["Service Flow"],
-          "summary": "Add Service Api",
-          "requestBody": {
-            "content": {
-              "multipart/form-data": {
-                "schema": {
-                  "$ref": "#/components/schemas/addServices"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/updateAvailability": {
-        "put": {
-          "tags": ["Barber Home"],
-          "summary": "Update Availability Api",
-          "requestBody": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/updateAvailability"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/updateBooking": {
-        "put": {
-          "tags": ["Barber Home"],
-          "summary": "complete or no show api",
-          "requestBody": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/updateBooking"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/updateNotification": {
-        "put": {
-          "tags": ["Setting"],
-          "summary": "User Update Notification Api",
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/cancelBooking": {
-        "put": {
-          "tags": ["Barber Home"],
-          "summary": "cancel Booking Api",
-          "requestBody": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/cancelBooking"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/rescheduleBooking": {
-        "put": {
-          "tags": ["Barber Home"],
-          "summary": "cancel Booking Api",
-          "requestBody": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/rescheduleBooking"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/todayBookingBarber": {
-        "get": {
-          "tags": ["Barber Home"],
-          "summary": "Today Booking Api",
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/ownerHome": {
-        "get": {
-          "tags": ["Owner Home"],
-          "summary": "Get All Booking Api",
-          "parameters": [{ "$ref": "#/components/parameters/shopId2" }],
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/allBookingsBarber": {
-        "get": {
-          "tags": ["Barber Home"],
-          "summary": "Get All Booking (completed (type -> 2)+ active(type -> 1)) Api",
-          "parameters": [{ "$ref": "#/components/parameters/type" }],
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/allBookingsUser": {
-        "get": {
-          "tags": ["Customer Home"],
-          "summary": "Get All Booking (completed (type -> 2)+ active(type -> 1)) Api",
-          "parameters": [{ "$ref": "#/components/parameters/type" }],
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/createPaymentIntent": {
-        "get": {
-          "tags": ["Customer Home"],
-          "summary": "Create Payment Intent Api",
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/paymentDone": {
-        "get": {
-          "tags": ["Customer Home"],
-          "summary": "Payment Done Api",
-          "parameters": [{ "$ref": "#/components/parameters/payment_intent" }],
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/myWallet": {
-        "get": {
-          "tags": ["Owner Wallet"],
-          "summary": "Wallet Api",
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/getTeamAvailability": {
-        "get": {
-          "tags": ["Team Availability Flow"],
-          "summary": "Get All Team availability Api",
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/getNotification": {
-        "get": {
-          "tags": ["Notification"],
-          "summary": "Get Notification Api",
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/contactUs": {
-        "post": {
-          "tags": ["Setting"],
-          "summary": "Contact Us Api",
-          "requestBody": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/contactUs"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/getRoom": {
-        "get": {
-          "tags": ["Chat Flow"],
-          "summary": "Get All Room Api",
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/getMessage": {
-        "get": {
-          "tags": ["Chat Flow"],
-          "summary": "Get All Messages Api",
-          "parameters": [{ "$ref": "#/components/parameters/roomId" }],
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
-        }
-      },
-      "/api/user/createChatRoom": {
-        "post": {
-          "tags": ["Chat Flow"],
-          "summary": "Create ChatRoom Api",
-          "requestBody": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/chatRoom"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Successful Operation"
-            },
-            "400": {
-              "description": "Bad request - Invalid input, validation error"
-            },
-            "401": {
-              "description": "Unauthorized - Authentication failure"
-            },
-            "500": {
-              "description": "Internal server error - Something went wrong on the server side"
-            }
-          },
-          "security": [
-            {
-              "access_token": ["access_token"]
-            }
-          ]
         }
       }
     },
@@ -1534,6 +321,19 @@
         "register": {
           "type": "object",
           "properties": {
+            "role": {
+              "type": "number",
+              "description": "Enter role",
+              "example":"0 -> Buy 1 -> Sell"
+            },
+            "first_name": {
+              "type": "string",
+              "description": "Enter first name"
+            },
+            "last_name": {
+              "type": "string",
+              "description": "Enter last name"
+            },
             "country_code": {
               "type": "string",
               "description": "Enter Country Code"
@@ -1541,12 +341,6 @@
             "phone_number": {
               "type": "number",
               "description": "Enter Phone Number"
-            },
-            "email": {
-              "description": "Enter your Email",
-              "type": "string",
-              "format": "email",
-              "default": "abc@yopmail.com"
             },
             "password": {
               "description": "Enter your Password",
@@ -1681,11 +475,13 @@
         "login": {
           "type": "object",
           "properties": {
-            "email": {
-              "description": "Enter your Email",
-              "type": "string",
-              "format": "email",
-              "default": "abc@yopmail.com"
+            "phone_number": {
+              "description": "Enter your phone number",
+              "type": "number"
+            },
+            "country_code": {
+              "description": "Enter your country code",
+              "type": "string"
             },
             "password": {
               "description": "Enter your Password",
@@ -1708,8 +504,12 @@
         "forgetPassword": {
           "type": "object",
           "properties": {
-            "email": {
-              "description": "Enter your email",
+         "phone_number": {
+              "description": "Enter your phone number",
+              "type": "number"
+            },
+            "country_code": {
+              "description": "Enter your country code",
               "type": "string"
             }
           }

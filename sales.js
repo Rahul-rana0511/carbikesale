@@ -42,7 +42,7 @@ app.use("/api/user", userRoutes);
 
 // ✅ Swagger Docs
 app.use("/docs", swagger_ui.serve, swagger_ui.setup(openapi_docs, {
-  title: `TrvlMinds Documentation`
+  title: `Car & bike sale Documentation`
 }));
 
 // ✅ Start Server
