@@ -1,12 +1,16 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "La vid Barber shop Documentation",
+    "title": "Car & Bike Sale Documentation",
     "version": "1.0.0"
   },
   "servers": [
     {
       "url": "http://localhost:4080/",
+      "description": "live Server"
+    },
+    {
+      "url": "http://89.116.21.87:4080/",
       "description": "live Server"
     }
   ],
