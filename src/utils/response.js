@@ -8,7 +8,7 @@ const successRes = (res, status, message, data, status_code) => {
   };
   
 const errorRes = (res, status, message, data, status_code) => {
-    res.status(200).json({
+    res.status(status).json({
       success: false,
       status: status_code ? status_code : status,
       message,
