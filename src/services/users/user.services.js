@@ -1,3 +1,4 @@
+import { cars, indianRegions } from "../../constants/static.js";
 import * as Model from "../../models/index.js";
 import { errorRes, successRes } from "../../utils/response.js";
 import "dotenv/config";
@@ -41,5 +42,73 @@ return successRes(res, 200, "Vehicle details fetched successfully", vehicleDetai
     }catch(err){
         return errorRes(res, 500, err.message)
     }
-  }
+  },
+  getCarList: async (req, res) => {
+    try {
+      const searchName = req.query.search;
+      
+      let result = cars;
+  
+      if (searchName) {
+        const regex = new RegExp(searchName, "i");
+        result = cars.filter(car => regex.test(car.company));
+      }
+    //  delete result.models;
+     const carsWithoutModels = result.map(({ models, ...rest }) => rest);
+      return successRes(res, 200, "Car list", carsWithoutModels);
+   
+    } catch (err) {
+      return errorRes(res, 500, err.message);
+    }
+  },
+  getModelList: async (req, res) => {
+    try {
+      const carName = req.query.car; // e.g., Honda
+      const search = req.query.search; // e.g., civ
+  
+      if (!carName) {
+        return errorRes(res, 400, "Car name is required");
+      }
+  
+      // Find the car object
+      const car = cars.find(c => c.company.toLowerCase() === carName.toLowerCase());
+  
+      if (!car) {
+        return errorRes(res, 404, "Car not found");
+      }
+  
+      let models = car.models;
+  
+      // If search is present, filter the models
+      if (search) {
+        const regex = new RegExp(search, "i");
+        models = models.filter(model => regex.test(model));
+      }
+  
+      return successRes(res, 200, "Model list", models);
+  
+    } catch (err) {
+      return errorRes(res, 500, err.message);
+    }
+  },
+  getStateList: async (req, res) => {
+    try {
+      const searchName = req.query.search;
+      
+      let result = indianRegions;
+  
+      if (searchName) {
+        const regex = new RegExp(searchName, "i");
+        result = indianRegions.filter(india => regex.test(india.name));
+      }
+
+      return successRes(res, 200, "Car list", result);
+   
+    } catch (err) {
+      return errorRes(res, 500, err.message);
+    }
+  },
+  
+  
 }
+export default userServices;

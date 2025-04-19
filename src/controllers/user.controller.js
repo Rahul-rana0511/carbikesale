@@ -1,29 +1,38 @@
-import userServices from "../services/users/auth.services.js";
-
+import authServices from "../services/users/auth.services.js";
+import userServices from "../services/users/user.services.js";
 const userController ={
   dropTables: async (req, res) => {
-    await userServices.dropTables(req, res);
+    await authServices.dropTables(req, res);
   },
   uploadImages: async (req, res) => {
-    await userServices.uploadImages(req, res);
+    await authServices.uploadImages(req, res);
   },
     register: async (req, res) => {
-        await userServices.registerUser(req, res);
+        await authServices.registerUser(req, res);
       },
       login: async (req, res) => {
-        await userServices.login(req, res);
+        await authServices.login(req, res);
       },
       forgetpassword: async (req, res) => {
-        await userServices.forgetpassword(req, res);
+        await authServices.forgetpassword(req, res);
       },
       resetPassword: async (req, res) => {
-        await userServices.resetPassword(req, res);
+        await authServices.resetPassword(req, res);
       },
       resendOTP: async (req, res) => {
-        await userServices.resendOTP(req, res);
+        await authServices.resendOTP(req, res);
       },
       verifyOTP: async (req, res) => {
-        await userServices.verifyOTP(req, res);
+        await authServices.verifyOTP(req, res);
+      },
+      getCarList: async (req, res) => {
+        await userServices.getCarList(req, res);
+      },
+      getModelList: async (req, res) => {
+        await userServices.getModelList(req, res);
+      },
+      getStateList: async (req, res) => {
+        await userServices.getStateList(req, res);
       },
 
 

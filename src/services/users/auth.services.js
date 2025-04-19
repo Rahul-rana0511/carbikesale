@@ -7,7 +7,7 @@ const JWT_SECRET_KEY = process.env.JWT_SECRET;
 
 
 
-const userServices = {
+const authServices = {
   uploadImages: async (req, res) => {
     try {
       let image;
@@ -271,4 +271,4 @@ const userServices = {
 
 };
 
-export default userServices;
+export default authServices;

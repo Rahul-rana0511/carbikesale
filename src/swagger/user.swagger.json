@@ -24,12 +24,12 @@
         "description": "Login Flow related apis"
       },
       {
-        "name": "Profile",
-        "description": "Create and Edit Profile related apis"
+        "name": "Sell",
+        "description": "Selling Flow related apis"
       },
       {
-        "name": "Shop",
-        "description": "Shop Flow related apis"
+        "name": "Buy",
+        "description": "Buy Flow related apis"
       },
       {
         "name": "Settings",
