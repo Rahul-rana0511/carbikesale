@@ -16,15 +16,14 @@ router.route("/forgetpassword").post(validations.validateForgotpassword, userCon
 router.route("/resetPassword").post(validations.validateResetPassword, userController.resetPassword);
 router.route("/resendOtp").post(validations.validateResendOtp, userController.resendOTP);
 router.route("/verifyOtp").post(validations.validateVerifyOtp, userController.verifyOTP);
+
+router.use(authentication)
 router.route("/getCarList").get(userController.getCarList);
 router.route("/getModelList").get(userController.getModelList);
 router.route("/getStateList").get(userController.getStateList);
+router.route("/addVehicle").post(userController.addVehicle);
+router.route("/dummyPayment").post(userController.dummyPayment);
 
-
-
-
-
-router.use(authentication)
 
 
 

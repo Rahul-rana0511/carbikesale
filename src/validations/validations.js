@@ -108,20 +108,28 @@ export const validations = {
 
     next();
   },
-  validateUpdateProfile: (req, res, next) => {
+  validateAddVehicle: (req, res, next) => {
     const schema = Joi.object({
-      full_name: Joi.string().optional(),
-      profile_image: Joi.string().optional(),
-      country_code: Joi.string().optional(),
-      phone_number: Joi.number().optional(),
-      language: Joi.number().optional(),
-      user_name: Joi.string().optional(),
-      age: Joi.number().optional(),
-      email: Joi.string().optional(),
-      dob: Joi.string().optional(),
-      gender: Joi.number().optional(),
-      country: Joi.string().optional(),
-      advertised_by: Joi.string().optional(),
+      vehicle_type: Joi.number().required(),
+      vehicle_brand: Joi.string().required(),
+      vehicle_model: Joi.string().required(),
+      manufacturing_year: Joi.string().required(),
+      city: Joi.string().optional(),
+      owner: Joi.number().required(),
+      vehicle_used: Joi.number().required(),
+      vehicle_plan: Joi.number().required(),
+      fuel_type: Joi.number().required(),
+      transmission: Joi.number().required(),
+      variant: Joi.number().required(),
+      vehicle_price: Joi.number().required(),
+      pin: Joi.string().optional(),
+      block: Joi.string().optional(),
+      flat: Joi.string().optional(),
+      posting_date: Joi.string().required(),
+      lat: Joi.string().optional(),
+      long: Joi.string().optional(),
+      vehicle_images: Joi.array().items(Joi.string()).optional(),
+
     });
 
     const { error } = schema.validate(req.body);

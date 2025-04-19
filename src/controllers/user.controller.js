@@ -34,7 +34,12 @@ const userController ={
       getStateList: async (req, res) => {
         await userServices.getStateList(req, res);
       },
-
+      addVehicle: async (req, res) => {
+        await userServices.addVehicle(req, res);
+      },
+      dummyPayment: async (req, res) => {
+        await userServices.dummyPayment(req, res);
+      },
 
 }
 export default userController

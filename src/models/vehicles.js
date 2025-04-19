@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 const vehicleSchema = new Schema(
   {
-    UserId: {
+    userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
       default: null
@@ -40,7 +40,7 @@ const vehicleSchema = new Schema(
         description: "0 -> No 1 -> yes"
     },
     vehicle_used: {
-        type: String,
+        type: Number,
         default: null,
         description: "0 -> 0-10k 1 -> 10k-20k 2 -> 20k-30k 3 -> 30k-40k 4 -> 40k-50k 5 -> 50k-60k 6 -> 60k-70k 7 -> 70k-80k 8 -> 80k-90k 9 -> more than 90k"
       },

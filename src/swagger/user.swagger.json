@@ -255,6 +255,115 @@
             }
           }
         }
+      },
+      "/api/user/getCarList": {
+        "get": {
+          "tags": [
+            "Sell"
+          ],
+          "summary": "Get Car list api",
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/search"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful Operation"
+            },
+            "400": {
+              "description": "Bad request - Invalid input, validation error"
+            },
+            "401": {
+              "description": "Unauthorized - Authentication failure"
+            },
+            "500": {
+              "description": "Internal server error - Something went wrong on the server side"
+            }
+          },
+          "security": [
+            {
+              "access_token": [
+                "access_token"
+              ]
+            }
+          ]
+        }
+      },
+      "/api/user/getModelList": {
+        "get": {
+          "tags": [
+            "Sell"
+          ],
+          "summary": "Get Model list of specific car api",
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/search"
+            },
+            {
+              "$ref": "#/components/parameters/car"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful Operation"
+            },
+            "400": {
+              "description": "Bad request - Invalid input, validation error"
+            },
+            "401": {
+              "description": "Unauthorized - Authentication failure"
+            },
+            "500": {
+              "description": "Internal server error - Something went wrong on the server side"
+            }
+          },
+          "security": [
+            {
+              "access_token": [
+                "access_token"
+              ]
+            }
+          ]
+        }
+      },
+      "/api/user/addVehicle": {
+        "post": {
+          "tags": [
+            "Sell"
+          ],
+          "summary": " Car/Bike sale Api",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/addVehicle"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful Operation"
+            },
+            "400": {
+              "description": "Bad request - Invalid input, validation error"
+            },
+            "401": {
+              "description": "Unauthorized - Authentication failure"
+            },
+            "500": {
+              "description": "Internal server error - Something went wrong on the server side"
+            }
+          },
+          "security": [
+            {
+              "access_token": [
+                "access_token"
+              ]
+            }
+          ]
+        }
       }
     },
     "components": {
@@ -364,20 +473,95 @@
             }
           }
         },
-        "rescheduleBooking": {
+        "addVehicle": {
           "type": "object",
           "properties": {
-            "bookingId": {
-              "type": "string",
-              "description": "Enter bookingId"
+            "vehicle_type": {
+              "type": "number",
+              "description": "Enter vehicle_type",
+              "example":"0 -> Car 1 -> bike"
             },
-            "date": {
+            "vehicle_brand": {
               "type": "string",
-              "description": "Enter date"
+              "description": "Enter vehicle_brand"
             },
-            "time": {
+            "vehicle_model": {
               "type": "string",
-              "description": "Enter time"
+              "description": "Enter vehicle_model"
+            },
+            "manufacturing_year": {
+              "type": "string",
+              "description": "Enter manufacturing_year"
+            },
+            "city": {
+              "type": "string",
+              "description": "Enter city"
+            },
+            "owner": {
+              "type": "number",
+              "description": "Enter owner",
+              "example":"0 -> 1st 1 -> 2nd 2 -> 3rd 3 -> 4th 4 -> beyond 4th 5 -> car dealer"
+            },
+            "vehicle_used": {
+              "type": "number",
+              "description": "Enter vehicle_used",
+              "example":"0 -> 0-10k 1 -> 10k-20k 2 -> 20k-30k 3 -> 30k-40k 4 -> 40k-50k 5 -> 50k-60k 6 -> 60k-70k 7 -> 70k-80k 8 -> 80k-90k 9 -> more than 90k"
+            },
+            "vehicle_plan": {
+              "type": "number",
+              "description": "Enter vehicle_plan",
+              "example":"0 -> immediate, 1 -> within a month 2 -> After a month 3 -> Just checking Price"
+            },
+            "fuel_type": {
+              "type": "number",
+              "description": "Enter fuel_type",
+              "example":"0 -> Petrol 1 -> other"
+            },
+            "transmission": {
+              "type": "number",
+              "description": "Enter transmission",
+              "example":"0 -> manual 1 -> automatic"
+            },
+            "variant": {
+              "type": "number",
+              "description": "Enter variant",
+              "example":"0 -> LXI 1 -> VXI 2 -> ZXI 3 -> ZXI Dual"
+            },
+            "vehicle_images": {
+              "description": "Add vehicle_images",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "vehicle_price": {
+              "type": "number",
+              "description": "Enter vehicle_price"
+            },
+            "lat": {
+              "type": "number",
+              "description": "Enter lat"
+            },
+            "long": {
+              "type": "number",
+              "description": "Enter long"
+            },
+            "pin": {
+              "type": "string",
+              "description": "Enter pin"
+            },
+            "block": {
+              "type": "string",
+              "description": "Enter block"
+            },
+            "flat": {
+              "type": "string",
+              "description": "Enter flat"
+            },
+            "posting_date": {
+              "type": "string",
+              "description": "Enter city",
+              "example":"2025-01-01"
             }
           }
         },
@@ -762,10 +946,9 @@
           "style": "form",
           "explode": true
         },
-        "shopId": {
-          "name": "shopId",
-          "in": "path",
-          "required": true,
+        "search": {
+          "name": "search",
+          "in": "query",
           "schema": {
             "type": "string",
             "format": "string"
@@ -773,8 +956,8 @@
           "style": "form",
           "explode": true
         },
-        "shopId2": {
-          "name": "shopId",
+        "car": {
+          "name": "car",
           "in": "query",
           "schema": {
             "type": "string",

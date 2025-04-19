@@ -6,6 +6,13 @@ import "dotenv/config";
 const userServices = {
   addVehicle: async(req,res)=>{
     try{
+      console.log(req.user);
+      if(req.body.lat && req.body.long){
+        req.body.location ={
+          type: "Point",
+          coordinates: [req.body.long,req.body.lat]
+        }
+      }
      const addData = await Model.Vehicle.create({...req.body, userId: req.user._id});
      return successRes(res, 200, "Vehicle added successfully",addData)
     }catch(err){
