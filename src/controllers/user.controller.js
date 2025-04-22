@@ -40,6 +40,9 @@ const userController ={
       dummyPayment: async (req, res) => {
         await userServices.dummyPayment(req, res);
       },
+      updateProfile: async (req, res) => {
+        await userServices.updateProfile(req, res);
+      },
 
 }
 export default userController

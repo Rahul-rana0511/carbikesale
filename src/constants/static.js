@@ -1,6 +1,7 @@
 export const cars = [
       {
         "company": "Volkswagen",
+        "image":"",
         "models": [
           "Golf",
           "Polo",
@@ -41,6 +42,7 @@ export const cars = [
       },
       {
         "company": "BMW",
+        "image":"uploads/bmw.png",
         "models": [
           "1 Series",
           "2 Series",
@@ -74,6 +76,7 @@ export const cars = [
       },      
       {
         "company": "Bentley",
+        "image":"uploads/bentley.png",
         "models": [
           "Continental GT",
           "Flying Spur",
@@ -93,6 +96,7 @@ export const cars = [
       },      
       {
         "company": "Rolls-Royce",
+        "image":"uploads/rollsroyce.png",
         "models": [
           "Phantom",
           "Ghost",
@@ -112,6 +116,7 @@ export const cars = [
       },      
       {
         "company": "Mercedes-Benz",
+        "image":"uploads/mercede.png",
         "models": [
           "A-Class",
           "B-Class",
@@ -145,6 +150,7 @@ export const cars = [
       },      
       {
         "company": "Audi",
+        "image":"uploads/audi.png",
         "models": [
           "A1",
           "A3",
@@ -183,6 +189,7 @@ export const cars = [
       },      
       {
         "company": "Porsche",
+        "image":"uploads/porsche.png",
         "models": [
           "911",
           "718 Cayman",
@@ -197,6 +204,7 @@ export const cars = [
       },      
       {
         "company": "Opel",
+        "image":"uploads/opel.png",
         "models": [
           "Astra",
           "Corsa",
@@ -220,6 +228,7 @@ export const cars = [
       },      
       {
         "company": "Ford",
+        "image":"uploads/ford.png",
         "models": [
           "Fiesta",
           "Focus",
@@ -247,6 +256,7 @@ export const cars = [
       },      
       {
         "company": "Skoda",
+        "image":"uploads/skoda.png",
         "models": [
           "Fabia",
           "Octavia",
@@ -267,6 +277,7 @@ export const cars = [
       },
       {
         "company": "Hyundai",
+        "image":"uploads/hyundai.png",
         "models": [
           "i10",
           "i20",
@@ -295,6 +306,7 @@ export const cars = [
       
       {
         "company": "BMW Mini",
+        "image":"uploads/bmw.png",
         "models": [
           "Mini Hatch",
           "Mini Clubman",
@@ -310,6 +322,7 @@ export const cars = [
       },
       {
         "company": "Mercedes-Benz Vans",
+        "image":"uploads/mercede.png",
         "models": [
           "Sprinter",
           "Vito",
@@ -319,6 +332,7 @@ export const cars = [
       },
       {
         "company": "Smart",
+        "image":"uploads/smart.png",
         "models": [
           "Fortwo",
           "Forfour",
@@ -329,6 +343,7 @@ export const cars = [
       },   
       {
         "company": "Volvo",
+        "image":"uploads/volvo.png",
         "models": [
           "S60",
           "S90",
@@ -351,6 +366,7 @@ export const cars = [
       },         
       {
         "company": "Alfa Romeo",
+        "image":"uploads/romeo.png",
         "models": [
           "Giulia",
           "Stelvio",
@@ -366,6 +382,7 @@ export const cars = [
       },      
       {
         "company": "Volkswagen Commercial Vehicles",
+        "image":"uploads/commercialvehicle.png",
         "models": [
           "Transporter",
           "Crafter",
@@ -375,6 +392,7 @@ export const cars = [
       },
       {
         "company": "Bugatti",
+        "image":"uploads/buggati.png",
         "models": [
           "Chiron",
           "Divo",
@@ -390,6 +408,7 @@ export const cars = [
       },      
       {
         "company": "Maybach",
+        "image":"uploads/maybach.png",
         "models": [
           "S-Class",
           "GLS"
@@ -397,6 +416,7 @@ export const cars = [
       },
       {
         "company": "Audi Sport",
+        "image":"uploads/audi.png",
         "models": [
           "RS 3",
           "RS 4",
@@ -408,6 +428,7 @@ export const cars = [
       },
       {
         "company": "Lamborghini",
+        "image":"uploads/lamborghini.png",
         "models": [
           "Huracan",
           "Urus",
@@ -425,6 +446,7 @@ export const cars = [
       },
       {
         "company": "Ferrari",
+        "image":"uploads/ferari.png",
         "models": [
           "488",
           "F8",
@@ -446,6 +468,7 @@ export const cars = [
       },      
       {
         "company": "Maserati",
+        "image":"uploads/maserti.png",
         "models": [
           "Ghibli",
           "Levante",
@@ -460,16 +483,7 @@ export const cars = [
       },      
       {
         "company": "Jaguar",
-        "models": [
-          "XE",
-          "XF",
-          "F-Pace",
-          "E-Pace",
-          "I-Pace"
-        ]
-      },
-      {
-        "company": "Jaguar",
+        "image":"uploads/jaguar.png",
         "models": [
           "XE",
           "XF",
@@ -491,6 +505,7 @@ export const cars = [
       },      
       {
         "company": "Land Rover",
+        "image":"uploads/landrover.png",
         "models": [
           "Range Rover",
           "Discovery",
@@ -512,6 +527,7 @@ export const cars = [
       },
       {
         "company": "Chevrolet",
+        "image":"uploads/chevrolet.png",
         "models": [
           "Aveo",
           "Cruze",
@@ -537,6 +553,7 @@ export const cars = [
       },    
       {
         "company": "GMC",
+        "image":"uploads/gmc.png",
         "models": [
           "Sierra 1500",
           "Sierra 2500HD",
@@ -556,6 +573,7 @@ export const cars = [
       },  
       {
         "company": "Cadillac",
+        "image":"uploads/not.png",
         "models": [
           "CT4",
           "CT5",
@@ -578,6 +596,7 @@ export const cars = [
       },
       {
         "company": "Chrysler",
+        "image":"uploads/chrysler.png",
         "models": [
           "300",
           "Pacifica",
@@ -595,7 +614,9 @@ export const cars = [
       },     
       {
         "company": "Dodge",
+        "image":"uploads/dodge.png",
         "models": [
+          
           "Charger",
           "Challenger",
           "Durango",
@@ -614,6 +635,7 @@ export const cars = [
       },     
       {
         "company": "RAM",
+        "image":"uploads/ram.png",
         "models": [
           "1500",
           "2500",
@@ -633,6 +655,7 @@ export const cars = [
       },   
       {
         "company": "Subaru",
+        "image":"uploads/subaru.png",
         "models": [
           "Impreza",
           "Legacy",
@@ -652,6 +675,7 @@ export const cars = [
       },   
       {
         "company": "Suzuki",
+        "image":"uploads/suzuki.png",
         "models": [
           "Swift",
           "Vitara",
@@ -673,6 +697,7 @@ export const cars = [
       },  
       {
         "company": "Mitsubishi",
+        "image":"uploads/mitsubishi.png",
         "models": [
           "Lancer",
           "Outlander",
@@ -692,6 +717,7 @@ export const cars = [
       }, 
       {
         "company": "Genesis",
+        "image":"uploads/genesis.png",
         "models": [
           "G70",
           "G80",
@@ -706,6 +732,7 @@ export const cars = [
       },  
       {
         "company": "Rivian",
+        "image":"uploads/rivian.png",
         "models": [
           "R1T",
           "R1S",
@@ -716,6 +743,7 @@ export const cars = [
       },     
       {
         "company": "Polestar",
+        "image":"uploads/volvo.png",
         "models": [
           "Polestar 1",
           "Polestar 2",
@@ -726,6 +754,7 @@ export const cars = [
       },  
       {
         "company": "SAIC",
+        "image":"uploads/saic.png",
         "models": [
           "MG ZS",
           "MG Hector",
@@ -745,6 +774,7 @@ export const cars = [
       },    
       {
         "company": "BYD",
+        "image":"uploads/byd.png",
         "models": [
           "Tang",
           "Song",
@@ -767,6 +797,7 @@ export const cars = [
       },
       {
         "company": "Geely",
+        "image":"uploads/gelly.png",
         "models": [
           "Geely Emgrand",
           "Geely Boyue",
@@ -785,6 +816,7 @@ export const cars = [
       },  
       {
         "company": "Chery",
+        "image":"uploads/chery.png",
         "models": [
           "Chery Tiggo 2",
           "Chery Tiggo 3",
@@ -804,6 +836,7 @@ export const cars = [
       },                       
       {
         "company": "Lucid Motors",
+        "image":"uploads/luci.png",
         "models": [
           "Lucid Air",
           "Lucid Air Pure",
@@ -815,6 +848,7 @@ export const cars = [
       },                             
       {
         "company": "Jeep",
+        "image":"uploads/jeep.png",
         "models": [
           "Wrangler",
           "Cherokee",
@@ -834,6 +868,7 @@ export const cars = [
       },                
       {
         "company": "Renault",
+        "image":"uploads/renault.png",
         "models": [
           "Clio",
           "Megane",
@@ -860,6 +895,7 @@ export const cars = [
       },
       {
         "company": "Dacia",
+        "image":"uploads/dacia.png",
         "models": [
           "Sandero",
           "Spring Electric",
@@ -874,6 +910,7 @@ export const cars = [
       },      
       {
         "company": "Peugeot",
+        "image":"uploads/peugueot.png",
         "models": [
           "108",
           "208",
@@ -900,6 +937,7 @@ export const cars = [
       
       {
         "company": "Citroën",
+        "image":"uploads/citroen.png",
         "models": [
           "C1",
           "C3",
@@ -927,6 +965,7 @@ export const cars = [
       
       {
         "company": "Kia",
+        "image":"uploads/kia.png",
         "models": [
           "Picanto",
           "Rio",
@@ -951,6 +990,7 @@ export const cars = [
       },
       {
         "company": "Honda",
+        "image":"uploads/honda.png",
         "models": [
           "Jazz",
           "City",
@@ -976,6 +1016,7 @@ export const cars = [
       },
       {
         "company": "Fiat",
+        "image":"uploads/fiat.png",
         "models": [
           "Panda",
           "500",
@@ -998,6 +1039,7 @@ export const cars = [
       },      
       {
         "company": "Toyota",
+        "image":"uploads/toyota.png",
         "models": [
           "Yaris",
           "Corolla",
@@ -1034,6 +1076,7 @@ export const cars = [
       },
       {
         "company": "Nissan",
+        "image":"uploads/nissan.png",
         "models": [
           "Micra",
           "Note",
@@ -1065,6 +1108,7 @@ export const cars = [
       },
       {
         "company": "Mazda",
+        "image":"uploads/mazda.png",
         "models": [
           "Mazda2",
           "Mazda3",
@@ -1088,6 +1132,7 @@ export const cars = [
       },
       {
         "company": "Tesla",
+        "image":"uploads/tesla.png",
         "models": [
           "Model S",
           "Model 3",

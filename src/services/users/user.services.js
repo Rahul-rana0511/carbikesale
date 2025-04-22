@@ -3,7 +3,20 @@ import * as Model from "../../models/index.js";
 import { errorRes, successRes } from "../../utils/response.js";
 import "dotenv/config";
 
+
 const userServices = {
+  updateProfile: async(req,res)=>{
+    try{
+      
+     const updateData = await Model.User.findByIdAndUpdate(req.user._id,{$set:{...req.body}},{new: true});
+     if(!updateData){
+      return errorRes(res, 404, "User not found")
+       }
+     return successRes(res, 200, "User profile updated successfully",updateData)
+    }catch(err){
+        return errorRes(res, 500, err.message)
+    }
+  },
   addVehicle: async(req,res)=>{
     try{
       console.log(req.user);

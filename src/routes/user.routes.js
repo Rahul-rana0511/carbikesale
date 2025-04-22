@@ -24,6 +24,10 @@ router.route("/getStateList").get(userController.getStateList);
 router.route("/addVehicle").post(userController.addVehicle);
 router.route("/dummyPayment").post(userController.dummyPayment);
 
+//--Setting
+router.route("/updateProfile").put(userController.updateProfile);
+
+
 
 
 

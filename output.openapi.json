@@ -362,6 +362,44 @@
           }
         ]
       }
+    },
+    "/api/user/updateProfile": {
+      "put": {
+        "tags": [
+          "Setting"
+        ],
+        "summary": " Update my profile Api",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateProfile"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "400": {
+            "description": "Bad request - Invalid input, validation error"
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failure"
+          },
+          "500": {
+            "description": "Internal server error - Something went wrong on the server side"
+          }
+        },
+        "security": [
+          {
+            "access_token": [
+              "access_token"
+            ]
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -387,6 +425,32 @@
           "name": {
             "type": "string",
             "description": "Give name to service"
+          }
+        }
+      },
+      "updateProfile": {
+        "type": "object",
+        "properties": {
+          "profile_image": {
+            "type": "string",
+            "description": "upload image"
+          },
+          "name": {
+            "type": "string",
+            "description": "enter name"
+          },
+          "dob": {
+            "type": "string",
+            "description": "enter dob"
+          },
+          "gender": {
+            "type": "number",
+            "description": "enter gender",
+            "example": "0-> Male 1-> Female"
+          },
+          "bio": {
+            "type": "string",
+            "description": "enter bio"
           }
         }
       },

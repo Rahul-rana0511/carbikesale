@@ -44,6 +44,19 @@ const userSchema = new Schema(
       type: String,
       default: null
     },
+    dob:{
+      type: Date,
+      default: null
+    },
+    gender:{
+      type: Number,
+      default: null,
+      description: "0-> Male 1-> Female",
+    },
+    bio:{
+      type: String,
+      default: null
+    },
     country_code: {
       type: String,
       default: null
