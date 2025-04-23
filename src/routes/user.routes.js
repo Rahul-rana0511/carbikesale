@@ -23,8 +23,12 @@ router.route("/getModelList").get(userController.getModelList);
 router.route("/getStateList").get(userController.getStateList);
 router.route("/addVehicle").post(userController.addVehicle);
 router.route("/dummyPayment").post(userController.dummyPayment);
+router.route("/getvehicleDetails/:vehicleId").get(userController.getvehicleDetails);
+router.route("/getVehicles").get(userController.getVehicles);
+
 
 //--Setting
+router.route("/getProfile").get(userController.getProfile);
 router.route("/updateProfile").put(userController.updateProfile);
 
 

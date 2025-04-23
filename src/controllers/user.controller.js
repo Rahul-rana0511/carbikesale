@@ -43,6 +43,15 @@ const userController ={
       updateProfile: async (req, res) => {
         await userServices.updateProfile(req, res);
       },
+      getProfile: async (req, res) => {
+        await userServices.getProfile(req, res);
+      },
+      getvehicleDetails: async (req, res) => {
+        await userServices.getvehicleDetails(req, res);
+      },
+      getVehicles: async (req, res) => {
+        await userServices.getVehicles(req, res);
+      },
 
 }
 export default userController

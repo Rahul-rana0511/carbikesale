@@ -327,6 +327,35 @@
           ]
         }
       },
+      "/api/user/getVehicles": {
+        "get": {
+          "tags": [
+            "Sell"
+          ],
+          "summary": " Get all Vheicle list Api",
+          "responses": {
+            "200": {
+              "description": "Successful Operation"
+            },
+            "400": {
+              "description": "Bad request - Invalid input, validation error"
+            },
+            "401": {
+              "description": "Unauthorized - Authentication failure"
+            },
+            "500": {
+              "description": "Internal server error - Something went wrong on the server side"
+            }
+          },
+          "security": [
+            {
+              "access_token": [
+                "access_token"
+              ]
+            }
+          ]
+        }
+      },
       "/api/user/addVehicle": {
         "post": {
           "tags": [
@@ -365,6 +394,78 @@
           ]
         }
       },
+      "/api/user/dummyPayment": {
+        "post": {
+          "tags": [
+            "Sell"
+          ],
+          "summary": " Dummy payment Api",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/dummyPayment"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful Operation"
+            },
+            "400": {
+              "description": "Bad request - Invalid input, validation error"
+            },
+            "401": {
+              "description": "Unauthorized - Authentication failure"
+            },
+            "500": {
+              "description": "Internal server error - Something went wrong on the server side"
+            }
+          },
+          "security": [
+            {
+              "access_token": [
+                "access_token"
+              ]
+            }
+          ]
+        }
+      },
+      "/api/user/getvehicleDetails/{vehicleId}": {
+        "get": {
+          "tags": [
+            "Sell"
+          ],
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/vehicleId"
+            }
+          ],
+          "summary": " Get Vheicle details Api",
+          "responses": {
+            "200": {
+              "description": "Successful Operation"
+            },
+            "400": {
+              "description": "Bad request - Invalid input, validation error"
+            },
+            "401": {
+              "description": "Unauthorized - Authentication failure"
+            },
+            "500": {
+              "description": "Internal server error - Something went wrong on the server side"
+            }
+          },
+          "security": [
+            {
+              "access_token": [
+                "access_token"
+              ]
+            }
+          ]
+        }
+      },
       "/api/user/updateProfile": {
         "put": {
           "tags": [
@@ -380,6 +481,35 @@
               }
             }
           },
+          "responses": {
+            "200": {
+              "description": "Successful Operation"
+            },
+            "400": {
+              "description": "Bad request - Invalid input, validation error"
+            },
+            "401": {
+              "description": "Unauthorized - Authentication failure"
+            },
+            "500": {
+              "description": "Internal server error - Something went wrong on the server side"
+            }
+          },
+          "security": [
+            {
+              "access_token": [
+                "access_token"
+              ]
+            }
+          ]
+        }
+      },
+      "/api/user/getProfile": {
+        "get": {
+          "tags": [
+            "Setting"
+          ],
+          "summary": " Get my profile Api",
           "responses": {
             "200": {
               "description": "Successful Operation"
@@ -629,16 +759,12 @@
             }
           }
         },
-        "cancelBooking": {
+        "dummyPayment": {
           "type": "object",
           "properties": {
-            "bookingId": {
+            "vehicleId": {
               "type": "string",
-              "description": "Enter bookingId"
-            },
-            "cancel_reason": {
-              "type": "string",
-              "description": "Enter cancel_reason"
+              "description": "Enter vehicleId"
             }
           }
         },
@@ -1124,9 +1250,9 @@
           "style": "form",
           "explode": true
         },
-        "year": {
-          "name": "year",
-          "in": "query",
+        "vehicleId": {
+          "name": "vehicleId",
+          "in": "path",
           "required": false,
           "schema": {
             "type": "string"

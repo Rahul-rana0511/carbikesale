@@ -5,6 +5,18 @@ import "dotenv/config";
 
 
 const userServices = {
+  getProfile: async(req,res)=>{
+    try{
+      
+     const getData = await Model.User.findById(req.user._id);
+     if(!getData){
+      return errorRes(res, 404, "User not found")
+       }
+     return successRes(res, 200, "User profile fetched successfully",getData)
+    }catch(err){
+        return errorRes(res, 500, err.message)
+    }
+  },
   updateProfile: async(req,res)=>{
     try{
       
@@ -25,6 +37,16 @@ const userServices = {
           type: "Point",
           coordinates: [req.body.long,req.body.lat]
         }
+      }
+      if (req.body.vehicle_price) {
+        const price = parseFloat(req.body.vehicle_price);
+        let paying_amount = price*0.02; //Taking 2% for the post
+        let discount = req.user.role == 1 
+          ? paying_amount * 0.05 
+          : paying_amount * 0.10;
+          req.body.post_paymnet = paying_amount;
+          req.body.total_payment = paying_amount - discount;
+          req.body.discount = discount;
       }
      const addData = await Model.Vehicle.create({...req.body, userId: req.user._id});
      return successRes(res, 200, "Vehicle added successfully",addData)

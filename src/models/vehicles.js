@@ -76,6 +76,10 @@ const vehicleSchema = new Schema(
         type: Number,
         default: null
     },
+    post_paymnet:{
+      type: Number,
+      default: null
+    },
     discount:{
       type: Number,
       default: null

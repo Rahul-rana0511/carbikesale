@@ -1,7 +1,7 @@
 export const cars = [
       {
         "company": "Volkswagen",
-        "image":"",
+        "image":"uploads/w.png",
         "models": [
           "Golf",
           "Polo",
