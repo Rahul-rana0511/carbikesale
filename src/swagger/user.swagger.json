@@ -361,6 +361,11 @@
           "tags": [
             "Sell"
           ],
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/search"
+            }
+          ],
           "summary": " Get all Vheicle list Api",
           "responses": {
             "200": {
