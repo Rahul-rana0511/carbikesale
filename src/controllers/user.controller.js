@@ -52,6 +52,9 @@ const userController ={
       getVehicles: async (req, res) => {
         await userServices.getVehicles(req, res);
       },
+      homeScreen: async (req, res) => {
+        await userServices.homeScreen(req, res);
+      },
 
 }
 export default userController
