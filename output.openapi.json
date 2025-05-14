@@ -6,6 +6,10 @@
   },
   "servers": [
     {
+      "url": "https://carandbikehub.com/",
+      "description": "live Server"
+    },
+    {
       "url": "http://localhost:4080/",
       "description": "live Server"
     },
