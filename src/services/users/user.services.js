@@ -189,8 +189,11 @@ const userServices = {
     try {
       let result = cars;
       let allStates = indianRegions;
-      const likedCarList = await Model.Likevehicle.find({userId});
-      const likeVehicleIds = likedCarList.map((like)=> like?.vehicleId?.toString())
+      const userId = req.user._id;
+      const likedCarList = await Model.Likevehicle.find({ userId });
+      const likeVehicleIds = likedCarList.map((like) =>
+        like?.vehicleId?.toString()
+      );
       const popularBrands = result.map(({ models, ...rest }) => rest);
       const mostlySearch = await Model.Search.find({}).sort({ count: 1 });
       let famousCars;
@@ -206,7 +209,9 @@ const userServices = {
         let searchIds = mostlySearch.map((search) =>
           search?.vehicleId?.toString()
         );
-        famousCars = await Model.Vehicle.find({ _id: { $in: searchIds } }).lean();
+        famousCars = await Model.Vehicle.find({
+          _id: { $in: searchIds },
+        }).lean();
       }
       const bestValue = await Model.Vehicle.find({
         is_payment_done: 1,
@@ -236,26 +241,26 @@ const userServices = {
         });
         state.count = count;
       }
-      for(let car of famousCars){
+      for (let car of famousCars) {
         let is_liked = 0;
-        if(likeVehicleIds.includes(car?._id?.toString())){
-         is_liked = 1
+        if (likeVehicleIds.includes(car?._id?.toString())) {
+          is_liked = 1;
         }
-        car.is_liked = is_liked
+        car.is_liked = is_liked;
       }
-      for(let car of bestValue){
+      for (let car of bestValue) {
         let is_liked = 0;
-        if(likeVehicleIds.includes(car?._id?.toString())){
-         is_liked = 1
+        if (likeVehicleIds.includes(car?._id?.toString())) {
+          is_liked = 1;
         }
-        car.is_liked = is_liked
+        car.is_liked = is_liked;
       }
-        for(let car of newlyAdded){
+      for (let car of newlyAdded) {
         let is_liked = 0;
-        if(likeVehicleIds.includes(car?._id?.toString())){
-         is_liked = 1
+        if (likeVehicleIds.includes(car?._id?.toString())) {
+          is_liked = 1;
         }
-        car.is_liked = is_liked
+        car.is_liked = is_liked;
       }
       let response = {
         famousCars: famousCars,
@@ -315,6 +320,43 @@ const userServices = {
         200,
         "Shortlisted vehicles fetched successfully",
         vehicleList
+      );
+    } catch (err) {
+      return errorRes(res, 500, err.message);
+    }
+  },
+  buyVehicleList: async (req, res) => {
+    try {
+      const { type, sort } = req.query;
+      let query = { is_payment_done: 1 };
+      let filterQuery = { price: 1 };
+      if (type == 1) {
+        query.vehicle_type = 0;
+      } else if (type == 2) {
+        query.vehicle_type = 1;
+      }
+      if (sort == 1) {
+        filterQuery.price = -1;
+      }
+      const vehcileList = await Model.Vehicle.find(query)
+        .sort(filterQuery)
+        .lean();
+      const likedCarList = await Model.Likevehicle.find({ userId : req.user._id});
+      const likeVehicleIds = likedCarList.map((like) =>
+        like?.vehicleId?.toString()
+      );
+       for (let car of vehcileList) {
+        let is_liked = 0;
+        if (likeVehicleIds.includes(car?._id?.toString())) {
+          is_liked = 1;
+        }
+        car.is_liked = is_liked;
+      }
+      return successRes(
+        res,
+        200,
+        "Vehicle fetched successfully",
+        vehcileList
       );
     } catch (err) {
       return errorRes(res, 500, err.message);
