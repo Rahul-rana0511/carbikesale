@@ -61,6 +61,9 @@ const userController ={
        shortlistedVehicle: async (req, res) => {
         await userServices.shortlistedVehicle(req, res);
       },
+buyVehicleList: async (req, res) => {
+        await userServices.buyVehicleList(req, res);
+      },
 
 }
 export default userController

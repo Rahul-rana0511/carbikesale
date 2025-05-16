@@ -635,6 +635,43 @@
           }
         ]
       }
+    },
+    "/api/user/buyVehicleList": {
+      "get": {
+        "tags": [
+          "Sell"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/type"
+          },
+          {
+            "$ref": "#/components/parameters/sort"
+          }
+        ],
+        "summary": " Get buy vehicle screen api (type 1 cars 2 means bike) (sort 1 means high to low by defaukt low to high) Api",
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "400": {
+            "description": "Bad request - Invalid input, validation error"
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failure"
+          },
+          "500": {
+            "description": "Internal server error - Something went wrong on the server side"
+          }
+        },
+        "security": [
+          {
+            "access_token": [
+              "access_token"
+            ]
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -1290,6 +1327,17 @@
       },
       "type": {
         "name": "type",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "string"
+        },
+        "style": "form",
+        "explode": true
+      },
+      "sort": {
+        "name": "sort",
         "in": "query",
         "required": true,
         "schema": {

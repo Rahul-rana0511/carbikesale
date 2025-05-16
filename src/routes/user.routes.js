@@ -35,6 +35,8 @@ router.route("/updateProfile").put(userController.updateProfile);
 //--Short listed Vehicles
 router.route("/likeDislikeVehicle").post(userController.likeDislikeVehicle)
 router.route("/shortlistedVehicle").get(userController.shortlistedVehicle)
+router.route("/buyVehicleList").get(userController.buyVehicleList)
+
 
 
 
