@@ -329,14 +329,14 @@ const userServices = {
     try {
       const { type, sort } = req.query;
       let query = { is_payment_done: 1 };
-      let filterQuery = { price: 1 };
+      let filterQuery = { vehicle_price: 1 };
       if (type == 1) {
         query.vehicle_type = 0;
       } else if (type == 2) {
         query.vehicle_type = 1;
       }
       if (sort == 1) {
-        filterQuery.price = -1;
+        filterQuery.vehicle_price = -1;
       }
       const vehcileList = await Model.Vehicle.find(query)
         .sort(filterQuery)
