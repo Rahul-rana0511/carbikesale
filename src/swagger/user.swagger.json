@@ -570,6 +570,73 @@
             }
           ]
         }
+      },
+      "/api/user/shortlistedVehicle": {
+        "get": {
+          "tags": [
+            "Sell"
+          ],
+          "summary": " Get all short listed vehicle Api",
+          "responses": {
+            "200": {
+              "description": "Successful Operation"
+            },
+            "400": {
+              "description": "Bad request - Invalid input, validation error"
+            },
+            "401": {
+              "description": "Unauthorized - Authentication failure"
+            },
+            "500": {
+              "description": "Internal server error - Something went wrong on the server side"
+            }
+          },
+          "security": [
+            {
+              "access_token": [
+                "access_token"
+              ]
+            }
+          ]
+        }
+      },
+       "/api/user/likeDislikeVehicle": {
+        "post": {
+          "tags": [
+            "Sell"
+          ],
+          "summary": " like Dislike Vehicle Api",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/likeDislikeVehicle"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful Operation"
+            },
+            "400": {
+              "description": "Bad request - Invalid input, validation error"
+            },
+            "401": {
+              "description": "Unauthorized - Authentication failure"
+            },
+            "500": {
+              "description": "Internal server error - Something went wrong on the server side"
+            }
+          },
+          "security": [
+            {
+              "access_token": [
+                "access_token"
+              ]
+            }
+          ]
+        }
       }
     },
     "components": {
@@ -820,6 +887,20 @@
             "type": {
               "type": "number",
               "description": "1 -> Completed 2 -> no show"
+            }
+          }
+        },
+        "likeDislikeVehicle": {
+          "type": "object",
+          "properties": {
+            "vehicleId": {
+              "type": "string",
+              "description": "Enter vehicleId"
+            },
+            "type": {
+              "type": "number",
+              "description": "1 -> like 2 -> dislike",
+              "example": "1 -> like 2 -> dislike"
             }
           }
         },

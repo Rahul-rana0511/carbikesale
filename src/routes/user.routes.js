@@ -32,6 +32,11 @@ router.route("/homeScreen").get(userController.homeScreen);
 router.route("/getProfile").get(userController.getProfile);
 router.route("/updateProfile").put(userController.updateProfile);
 
+//--Short listed Vehicles
+router.route("/likeDislikeVehicle").post(userController.likeDislikeVehicle)
+router.route("/shortlistedVehicle").get(userController.shortlistedVehicle)
+
+
 
 
 

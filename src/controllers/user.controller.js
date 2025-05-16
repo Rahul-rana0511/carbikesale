@@ -55,6 +55,12 @@ const userController ={
       homeScreen: async (req, res) => {
         await userServices.homeScreen(req, res);
       },
+       likeDislikeVehicle: async (req, res) => {
+        await userServices.likeDislikeVehicle(req, res);
+      },
+       shortlistedVehicle: async (req, res) => {
+        await userServices.shortlistedVehicle(req, res);
+      },
 
 }
 export default userController

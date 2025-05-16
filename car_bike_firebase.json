@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "carandbikehub-eefc6",
+  "private_key_id": "2a9295e3d21ab8ec8717e6317c618e84f52eb0f9",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCxHnCRD4foNEUI\nKBjTIDrgqUJ0l8nY4ON0xqdRmwKC8KPvLz0U8F87aulssjP8QTcktyUKGXSV06Gh\nQNdxkarCqmUoAuQjEgJjwDbgP7v35hofB45wRliwQqKhTF6zw3/3B+rVZAgE4vwr\nxCbMYQ+V3KinYLlEchv6r/3WUxMYeTjtqbVZuHDWgQOqQPrkqq8blAujgJWXWm2M\nP6Y/1Gn2JiU31Vr8F1Sn31iAyN1u5xA+jcB606YIMaKZiiCm21o5n6eS+GXEqakW\nQLlkGy6h+vw0EVl4X49ETaIIB8JLsWX6JsAhqzHjeG+sryZ7OOdCWJvzSRoJtohB\nOje8LGrRAgMBAAECggEAAmsoPdmGBqjKEDJd+RS9q7+GnF7N6ePTmflezl7ibKUl\nE+549CN+er+lvYR8cGjNPDeHrl41HkOkIiEndVH4JeLbm+2C2IDAiW9V6yoroqxg\nyxotutZBvpxrqe4H9Vv0JXcqoNcrbdz8n7YKEpc5C4KWcfyrOFD3lVeDDO1tphNM\niQ7aI4iJigU+gW5Gh6C/Vffy4QDFTubeUCaJtvMF1JzJOGll5lnNmY9uv+O7DkBf\naN80cf8CU5rjG6iMb/XxLJjZ6ckhSdFpr6BBTTW43pi1T9SAMUjok1tuvsJMKHqR\nuHp/F5E8/cY2VYWacyX0uOPTYqTfLs0IUulqLQWL0QKBgQDen97BNGqz8Lb6zHFM\njn0TuiIPwaRzI5RihEuWSCWx0260/OoJJ8qmpMe+obLG13HW/egzLJrSb5hlse17\nOUlIXpI3IV8Nl5XRDRXCGjLDMkiOjQKKum88eXGna2hUwiw4S0/eV3ftAjEu3rD5\nDEe3EPagpZWElBvIjDO8DWtg2QKBgQDLrBsKusR0uPCS41tQQB6xzGXk0g9Yffk7\n6whKwascdNSFdhNyIW4XZI7SxtksUD/Z5pOVHV3NiEeaJbayrfHcfodSXkcOoDT0\nRey+qKiU61MBfK3f2QOZ04KgnWvLPPtV9MRElN/v8L0mg/gJCCFnEK/IZLowW/bf\nSPgnscoeuQKBgCONYGN2XXvy+yW+NHHHZ44Y8YuWnw6MJgw9mFydlPd7Dnj00uM3\naZOHSSbWZ9h9W367+bMCco8cpzfGXGiLU3qtL6iCOc3P4WsLLehbirPFefTZ7Af/\nkfgUZOQZsQWoJKuwy0Z0rYA6E2Sqx5ReM622lcw95UzQ4kb6rOBhPD6xAoGAKgaq\nUc12Ciu7IGQfjHCepMtrXwrlNbpQukdmH57UwvtsetmBa7RwNg1+1wlG+LjaZAkK\n/OLhXy62r50GlNoFpRzKqXlgqijupFTlY/YDSy8/onfqnNz3vD8Dnka9XmOH7RWj\nhg8+IhGHxjHG9X4i/lRYIT5/mMjxKOOyqOYrsakCgYEAxertsWG1kbc10J9UUSjq\nSL1mr5Q7uGLwHs/pA25QNYrSufcLXcOnkcQtr/PpWYT2AimacfJCcf8gohbQbKAe\nvtqJJdqYPK/tCspzGxHc+lf9EVrLmUoGa7iuQXk8lmhGaJFt509lJ87sWO1kBcOk\nMjxXYD4q07yzHByqJHPChAQ=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-fbsvc@carandbikehub-eefc6.iam.gserviceaccount.com",
+  "client_id": "108528233760829557327",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40carandbikehub-eefc6.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
