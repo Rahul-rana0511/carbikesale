@@ -1328,7 +1328,6 @@
       "type": {
         "name": "type",
         "in": "query",
-        "required": true,
         "schema": {
           "type": "string",
           "format": "string"
@@ -1339,7 +1338,6 @@
       "sort": {
         "name": "sort",
         "in": "query",
-        "required": true,
         "schema": {
           "type": "string",
           "format": "string"
