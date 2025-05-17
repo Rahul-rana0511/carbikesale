@@ -31,8 +31,8 @@ const userSchema = new Schema(
     role: {
       type: Number,
       default: 0,
-      enum: [0, 1],
-      description: "0-> Buyer 1-> Seller",
+      enum: [0, 1, 2],
+      description: "0-> Buyer 1-> Seller 2 -> Dealer",
     },
     is_active: {
       type: Number,
@@ -62,6 +62,10 @@ const userSchema = new Schema(
       default: null
     },
     phone_number: {
+      type: String,
+      default: null
+    },
+    license_number:{
       type: String,
       default: null
     },

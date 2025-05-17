@@ -795,6 +795,10 @@
               "description": "Enter your Password",
               "type": "string"
             },
+             "license_number": {
+              "type": "string",
+              "description": "Enter license number"
+            },
             "device_token": {
               "description": "Enter device token",
               "type": "string"

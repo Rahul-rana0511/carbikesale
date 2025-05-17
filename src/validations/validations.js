@@ -28,6 +28,7 @@ export const validations = {
       role: Joi.number().required(),
       first_name: Joi.string().required(),
       last_name: Joi.string().required(),
+      license_number: Joi.string().optional(),
       password: Joi.string().required(),
       email: Joi.string().optional(),
       device_token: Joi.string().optional(),
@@ -129,7 +130,6 @@ export const validations = {
       lat: Joi.string().optional(),
       long: Joi.string().optional(),
       vehicle_images: Joi.array().items(Joi.string()).optional(),
-
     });
 
     const { error } = schema.validate(req.body);
@@ -173,8 +173,8 @@ export const validations = {
       start_date: Joi.string().optional(),
       end_date: Joi.string().optional(),
       accompanied_by: Joi.array().items(Joi.string()).optional(),
-      spotId:  Joi.string().optional(),
-      date:  Joi.string().optional(),
+      spotId: Joi.string().optional(),
+      date: Joi.string().optional(),
       accomodation: Joi.string().optional(),
     });
     if (req.body.accompanied_by == "") {
@@ -259,8 +259,7 @@ export const validations = {
       spot_caption: Joi.string().optional(),
       accompanied_by: Joi.array().items(Joi.string()).optional(),
       accomodation_hotelId: Joi.string().optional(),
-      spot_tip: Joi.string().optional()
-  
+      spot_tip: Joi.string().optional(),
     });
 
     if (req.body.accompanied_by == "") {
@@ -293,7 +292,7 @@ export const validations = {
       spot_caption: Joi.string().optional(),
       accompanied_by: Joi.array().items(Joi.string()).optional(),
       accomodation_hotelId: Joi.string().optional(),
-      spot_tip: Joi.string().optional()
+      spot_tip: Joi.string().optional(),
     });
     console.log(req.body.accompanied_by, "data");
     if (
@@ -342,7 +341,7 @@ export const validations = {
   },
   validateSaveSpot: (req, res, next) => {
     const schema = Joi.object({
-      spotId:  Joi.any().optional(),
+      spotId: Joi.any().optional(),
       collectionId: Joi.string().optional(),
       tripId: Joi.string().optional(),
     });
@@ -355,7 +354,7 @@ export const validations = {
   },
   validateSaveExistingSpot: (req, res, next) => {
     const schema = Joi.object({
-      date:  Joi.string().required(),
+      date: Joi.string().required(),
       tripId: Joi.string().required(),
       spotId: Joi.string().required(),
     });
@@ -409,7 +408,7 @@ export const validations = {
   validateFollow: (req, res, next) => {
     const schema = Joi.object({
       userId: Joi.string().required(),
-      type: Joi.string().required()
+      type: Joi.string().required(),
     });
 
     const { error } = schema.validate(req.body);
@@ -448,7 +447,7 @@ export const validations = {
     const schema = Joi.object({
       messageIds: Joi.array().items(Joi.string()).required(),
     });
-  
+
     const { error } = schema.validate(req.body);
     if (error) {
       return handleValidationError(res, error);
