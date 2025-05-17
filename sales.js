@@ -1,6 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import http from 'http';
+import { Server } from "socket.io";
+import { connectSocket, getSocketIo } from "./src/sockets/sockets.js";
 import morgan from "morgan";
 import cors from "cors";
 import swagger_ui from "swagger-ui-express"; 
@@ -45,8 +47,11 @@ app.use("/api/user", userRoutes);
 app.use("/docs", swagger_ui.serve, swagger_ui.setup(openapi_docs, {
   title: `Car & bike sale Documentation`
 }));
-
+const server = http.createServer(app);
+const io = new Server(server, { cors: { origin: "*" } });
+global.io = io;
+connectSocket(io);
 // ✅ Start Server
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`🚀 Server listening on port ${PORT}`);
 });
