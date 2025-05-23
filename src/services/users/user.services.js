@@ -1,5 +1,5 @@
 import { model } from "mongoose";
-import { cars, indianRegions } from "../../constants/static.js";
+import { bikes, cars, indianRegions } from "../../constants/static.js";
 import * as Model from "../../models/index.js";
 import { errorRes, successRes } from "../../utils/response.js";
 import "dotenv/config";
@@ -124,39 +124,53 @@ const userServices = {
   getCarList: async (req, res) => {
     try {
       const searchName = req.query.search;
+      const { type } = req.query;
+      let result;
+      if (type == 1) {
+        result = bikes;
+        if (searchName) {
+          const regex = new RegExp(searchName, "i");
+          result = bikes.filter((bike) => regex.test(bike.company));
+        }
+      } else {
+        result = cars;
 
-      let result = cars;
-
-      if (searchName) {
-        const regex = new RegExp(searchName, "i");
-        result = cars.filter((car) => regex.test(car.company));
+        if (searchName) {
+          const regex = new RegExp(searchName, "i");
+          result = cars.filter((car) => regex.test(car.company));
+        }
       }
       //  delete result.models;
-      const carsWithoutModels = result.map(({ models, ...rest }) => rest);
-      return successRes(res, 200, "Car list", carsWithoutModels);
+      const vehiclesWithoutModels = result.map(({ models, ...rest }) => rest);
+      return successRes(res, 200, "Car list", vehiclesWithoutModels);
     } catch (err) {
       return errorRes(res, 500, err.message);
     }
   },
   getModelList: async (req, res) => {
     try {
-      const carName = req.query.car; // e.g., Honda
+      const vehicleName = req.query.car; // e.g., Honda
       const search = req.query.search; // e.g., civ
-
-      if (!carName) {
-        return errorRes(res, 400, "Car name is required");
+      const type = req.query.type // 1 -> bike 0 -> car
+      if (!vehicleName) {
+        return errorRes(res, 400, "Vehicle name is required");
       }
-
-      // Find the car object
-      const car = cars.find(
-        (c) => c.company.toLowerCase() === carName.toLowerCase()
+      let vehicles;
+      if(type){
+        vehicles = bikes.find(
+        (c) => c.company.toLowerCase() === vehicleName.toLowerCase()
+      ); 
+      }else{
+         vehicles = cars.find(
+        (c) => c.company.toLowerCase() === vehicleName.toLowerCase()
       );
-
-      if (!car) {
-        return errorRes(res, 404, "Car not found");
       }
 
-      let models = car.models;
+      if (!vehicles) {
+        return errorRes(res, 404, "Vehicle models not found");
+      }
+
+      let models = vehicles.models;
 
       // If search is present, filter the models
       if (search) {
@@ -341,23 +355,20 @@ const userServices = {
       const vehcileList = await Model.Vehicle.find(query)
         .sort(filterQuery)
         .lean();
-      const likedCarList = await Model.Likevehicle.find({ userId : req.user._id});
+      const likedCarList = await Model.Likevehicle.find({
+        userId: req.user._id,
+      });
       const likeVehicleIds = likedCarList.map((like) =>
         like?.vehicleId?.toString()
       );
-       for (let car of vehcileList) {
+      for (let car of vehcileList) {
         let is_liked = 0;
         if (likeVehicleIds.includes(car?._id?.toString())) {
           is_liked = 1;
         }
         car.is_liked = is_liked;
       }
-      return successRes(
-        res,
-        200,
-        "Vehicle fetched successfully",
-        vehcileList
-      );
+      return successRes(res, 200, "Vehicle fetched successfully", vehcileList);
     } catch (err) {
       return errorRes(res, 500, err.message);
     }
