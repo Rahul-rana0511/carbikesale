@@ -17,7 +17,7 @@ router.route("/resetPassword").post(validations.validateResetPassword, userContr
 router.route("/resendOtp").post(validations.validateResendOtp, userController.resendOTP);
 router.route("/verifyOtp").post(validations.validateVerifyOtp, userController.verifyOTP);
 
-// router.use(authentication)
+router.use(authentication)
 router.route("/getCarList").get(userController.getCarList);
 router.route("/getModelList").get(userController.getModelList);
 router.route("/getStateList").get(userController.getStateList);
