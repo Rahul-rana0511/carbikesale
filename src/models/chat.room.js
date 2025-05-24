@@ -10,7 +10,6 @@ const ChatRoomSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-     
     deleted_by: [
       {
         type: Schema.Types.ObjectId,

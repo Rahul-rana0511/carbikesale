@@ -678,6 +678,112 @@
           }
         ]
       }
+    },
+    "/api/user/createChatRoom": {
+      "post": {
+        "tags": [
+          "Chat Flow"
+        ],
+        "summary": "Create ChatRoom Api",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/chatRoom"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "400": {
+            "description": "Bad request - Invalid input, validation error"
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failure"
+          },
+          "500": {
+            "description": "Internal server error - Something went wrong on the server side"
+          }
+        },
+        "security": [
+          {
+            "access_token": [
+              "access_token"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/user/getRoom": {
+      "get": {
+        "tags": [
+          "Chat Flow"
+        ],
+        "summary": "Get All Room Api",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/search"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "400": {
+            "description": "Bad request - Invalid input, validation error"
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failure"
+          },
+          "500": {
+            "description": "Internal server error - Something went wrong on the server side"
+          }
+        },
+        "security": [
+          {
+            "access_token": [
+              "access_token"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/user/getMessage/{roomId}": {
+      "get": {
+        "tags": [
+          "Chat Flow"
+        ],
+        "summary": "Get All Messages Api",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/roomId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "400": {
+            "description": "Bad request - Invalid input, validation error"
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failure"
+          },
+          "500": {
+            "description": "Internal server error - Something went wrong on the server side"
+          }
+        },
+        "security": [
+          {
+            "access_token": [
+              "access_token"
+            ]
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -756,9 +862,9 @@
       "chatRoom": {
         "type": "object",
         "properties": {
-          "bookingId": {
+          "created_with": {
             "type": "string",
-            "description": "enter bookingId"
+            "description": "enter created_with"
           }
         }
       },
@@ -1419,7 +1525,7 @@
       },
       "roomId": {
         "name": "roomId",
-        "in": "query",
+        "in": "path",
         "required": false,
         "schema": {
           "type": "string"

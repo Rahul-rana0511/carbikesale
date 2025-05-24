@@ -37,9 +37,10 @@ router.route("/likeDislikeVehicle").post(userController.likeDislikeVehicle)
 router.route("/shortlistedVehicle").get(userController.shortlistedVehicle)
 router.route("/buyVehicleList").get(userController.buyVehicleList)
 
-
-
-
+//--Chat List
+router.route("/getRoom").get(userController.getRoom);
+router.route("/getMessage/:roomId").get(userController.getMessage);
+router.route("/createChatRoom").post(userController.createChatRoom);
 
 
 

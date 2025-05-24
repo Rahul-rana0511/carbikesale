@@ -15,17 +15,20 @@ const ChatSchema = new Schema(
       type: Number,
     },
     
-    message_content: {
+    message: {
       type: String,
       default: null
     },
    
-    deleted_by: [
+    deleted_by: {
+      type: [
       {
         type: Schema.Types.ObjectId,
         ref: "User",
       },
-    ]
+    ],
+    default: []
+  },
   },
   { timestamps: true }
 );

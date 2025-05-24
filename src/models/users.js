@@ -94,7 +94,17 @@ const userSchema = new Schema(
       default: 0,
       enum: [0, 1, 2],
       description: "0: general 1: google 2: Apple",
-    }
+    },
+    is_enable_notification:{
+      type: Number,
+      default: 1,
+      enum: [0,1],
+       description: "0 -> No 1 -> Yes",
+    },
+    socketId: {
+      type: String,
+      default: null
+    },
   },
 
   { timestamps: true }

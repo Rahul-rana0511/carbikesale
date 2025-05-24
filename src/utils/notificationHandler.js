@@ -19,9 +19,9 @@ const buildDataPayload = (
   senderId
 ) => {
   const data = {};
-  if (user?.full_name) data.user_name = String(user.full_name);
+  if (user?.first_name) data.user_name = String(user.first_name);
 
-  if (user?.image) data.user_image = String(user.image);
+  if (user?.profile_image) data.user_image = String(user.profile_image);
 
   if (title) data.title = String(title);
 
@@ -54,9 +54,7 @@ const pushNotification = async ({
     switch (type) {
       case "newMessage":
         ({ title, desc, type } = newMessage(
-          user?.name,
-          misc?.type,
-          misc?.group
+          user?.first_name,
         ));
         break;
       case "mentionUser":
@@ -83,7 +81,7 @@ const pushNotification = async ({
       default:
         break;
     }
-    if (type != 7 && type != 15) {
+    if (type != 5) {
       await Model.Notification.create({
         user_id,
         other_user,
@@ -93,17 +91,9 @@ const pushNotification = async ({
         notification_type: type,
         redirectId: misc?.redirectId,
       });
-      let notification_count = await Model.Notification.countDocuments({
-        user_id,
-        is_seen: 0,
-      });
-      let io = getSocketIo();
-      io.to(sendNotificationTo?.socketId).emit("notification_count", {
-        notification_count,
-      });
     }
 
-    if (sendNotificationTo?.is_enable_notification == 1) {
+    // if (sendNotificationTo?.is_enable_notification == 1) {
       const notification = {
         tokens: [sendNotificationTo?.device_token],
         priority: "high",
@@ -130,10 +120,10 @@ const pushNotification = async ({
         apns: {
           payload: {
             aps: {
-              contentAvailable: true,
+              // contentAvailable: true,
               sound: "default",
               badge: 1,
-              mutableContent: true,
+              // mutableContent: true,
             },
           },
         },
@@ -154,7 +144,7 @@ const pushNotification = async ({
       } catch (err) {
         console.log("Something went wrong!", err);
       }
-    }
+    // }
   } catch (error) {
     console.error("Error in pushNotification:", error);
   }

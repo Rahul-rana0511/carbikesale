@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import * as Model from "../models/index.js";
 import 'dotenv/config';
-// import {chatService} from '../../src/services/chatServices.js';
+import {chatService} from '../../src/services/users/chat.services.js';
 let onlineUsers = [];
 
 global.onlineUsers = onlineUsers;
@@ -24,7 +24,7 @@ export const connectSocket = async (io)=> {
    
     console.log(`User connected with this id ${socket.id}`);
     socket.on('send_message', async (msg) => {
-      const chatdata = await chatService.SendMessage(msg);
+      const chatdata = await chatService.sendMessage(msg);
       if (chatdata != undefined) {
         let userIds = chatdata?.userIds;
         for(let userId of userIds){

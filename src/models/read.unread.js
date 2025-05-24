@@ -4,19 +4,23 @@ const readUnreadSchema = new Schema(
   {
     user_id: {
         type: Schema.Types.ObjectId, 
-        ref: "User" 
+        ref: "User" ,
+        default: null
     },
     room_id:{
         type:Schema.Types.ObjectId,
-        ref:"chatRoom"
+        ref:"chatRoom",
+         default: null
     },
     message_id:{
         type:Schema.Types.ObjectId,
-        ref:"Chat"
+        ref:"Chat",
+         default: null
     },
     // 0 -> unseen 1 -> seen
     status:{
         type: Number,
+         default: null
     },
   },
   { timestamps: true }
