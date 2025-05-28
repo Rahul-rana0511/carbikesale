@@ -217,7 +217,7 @@ const userServices = {
           vehicle_type: 0,
         })
           .sort({ createdAt: -1 })
-          .limit(6)
+          // .limit(6)
           .lean();
       } else {
         let searchIds = mostlySearch.map((search) =>
@@ -232,14 +232,14 @@ const userServices = {
         vehicle_type: 0,
       })
         .sort({ vehicle_price: 1 })
-        .limit(6)
+        // .limit(6)
         .lean();
       const newlyAdded = await Model.Vehicle.find({
         is_payment_done: 1,
         vehicle_type: 0,
       })
         .sort({ createdAt: -1 })
-        .limit(6)
+        // .limit(6)
         .lean();
       const allCars = await Model.Vehicle.find({
         is_payment_done: 1,

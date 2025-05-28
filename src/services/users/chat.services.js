@@ -206,6 +206,7 @@ export const chatService = {
         return successRes(res, 200, "Chat Room", []);
       }
       for (let existsRoom of existsRooms) {
+        // let otherUserData = req.user._id.toString() === existsRoom.
         const unread_count = await Model.readUnread.countDocuments({
           user_id: req.user._id,
           room_id: existsRoom._id,
