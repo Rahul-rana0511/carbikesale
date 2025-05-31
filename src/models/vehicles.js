@@ -67,10 +67,56 @@ const vehicleSchema = new Schema(
       description: "0 -> manual 1 -> automatic"
     },
     variant:{
+      type: String,
+      default: null
+    },
+     mileage:{
+      type: String,
+      default: null
+    },
+     ground_clearance:{
+      type: String,
+      default: null
+    },
+     boot_space:{
+      type: String,
+      default: null
+    },
+     seating_cap:{
       type: Number,
-      default: null,
-      enum: [0,1],
-      description: "0 -> LXI 1 -> VXI 2 -> ZXI 3 -> ZXI Dual"
+      default: null
+    },
+     fuel_cap:{
+      type: String,
+      default: null
+    },
+     displacement:{
+      type: String,
+      default: null
+    },
+     keyless_start:{
+      type: Number,
+      default: null
+    },
+     cruise_control:{
+      type: Number,
+      default: null
+    },
+    sunroof:{
+      type: Number,
+      default: null
+    },
+    airbags:{
+      type: Number,
+      default: null
+    },
+    rear_camera:{
+      type: Number,
+      default: null
+    },
+    view_camera:{
+      type: Number,
+      default: null
     },
     vehicle_images:{
         type: [String],

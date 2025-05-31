@@ -214,7 +214,7 @@ const userServices = {
       if (mostlySearch.length < 5) {
         famousCars = await Model.Vehicle.find({
           is_payment_done: 1,
-          vehicle_type: 0,
+          // vehicle_type: 0,
         })
           .sort({ createdAt: -1 })
           // .limit(6)
@@ -229,21 +229,21 @@ const userServices = {
       }
       const bestValue = await Model.Vehicle.find({
         is_payment_done: 1,
-        vehicle_type: 0,
+        // vehicle_type: 0,
       })
         .sort({ vehicle_price: 1 })
         // .limit(6)
         .lean();
       const newlyAdded = await Model.Vehicle.find({
         is_payment_done: 1,
-        vehicle_type: 0,
+        // vehicle_type: 0,
       })
         .sort({ createdAt: -1 })
         // .limit(6)
         .lean();
       const allCars = await Model.Vehicle.find({
         is_payment_done: 1,
-        vehicle_type: 0,
+        // vehicle_type: 0,
       }).lean();
       for (let state of allStates) {
         let count = 0;

@@ -977,9 +977,9 @@
             "example": "0 -> manual 1 -> automatic"
           },
           "variant": {
-            "type": "number",
+            "type": "string",
             "description": "Enter variant",
-            "example": "0 -> LXI 1 -> VXI 2 -> ZXI 3 -> ZXI Dual"
+            "example": "Lxi, CC"
           },
           "vehicle_images": {
             "description": "Add vehicle_images",
@@ -1016,6 +1016,61 @@
             "type": "string",
             "description": "Enter city",
             "example": "2025-01-01"
+          },
+          "mileage": {
+            "type": "string",
+            "description": "Enter mileage"
+          },
+          "ground_clearance": {
+            "type": "string",
+            "description": "Enter ground_clearance"
+          },
+          "boot_space": {
+            "type": "string",
+            "description": "Enter boot_space"
+          },
+          "seating_cap": {
+            "type": "number",
+            "description": "Enter seating_cap",
+            "example": "1"
+          },
+          "fuel_cap": {
+            "type": "Number",
+            "description": "Enter fuel_cap"
+          },
+          "displacement": {
+            "type": "string",
+            "description": "Enter displacement"
+          },
+          "keyless_start": {
+            "type": "number",
+            "description": "Enter keyless_start",
+            "example": "0 -> No 1 -> Yes"
+          },
+          "cruise_control": {
+            "type": "number",
+            "description": "Enter cruise_control",
+            "example": "0 -> No 1 -> Yes"
+          },
+          "sunroof": {
+            "type": "number",
+            "description": "Enter sunroof",
+            "example": "0 -> No 1 -> Yes"
+          },
+          "airbags": {
+            "type": "number",
+            "description": "Enter airbags",
+            "example": "0 -> No 1 -> Yes"
+          },
+          "rear_camera": {
+            "type": "number",
+            "description": "Enter rear_camera",
+            "example": "0 -> No 1 -> Yes"
+          },
+          "view_camera": {
+            "type": "number",
+            "description": "Enter view_camera",
+            "example": "0 -> No 1 -> Yes"
           }
         }
       },

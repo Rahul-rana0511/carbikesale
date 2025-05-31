@@ -29,6 +29,7 @@ export const connectSocket = async (io)=> {
         let userIds = chatdata?.userIds;
         for(let userId of userIds){
           const user = await Model.User.findById(userId).select("socketId")
+            io.to(user.socketId).emit("unread_message", chatdata) 
             io.to(user.socketId).emit("receive_message", chatdata) 
         }
       }
