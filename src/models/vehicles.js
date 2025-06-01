@@ -154,6 +154,10 @@ const vehicleSchema = new Schema(
       type: String,
       default: null
     },
+    vehicle_number:{
+      type: String,
+      default: null
+    },
     block:{
       type: String,
       default: null

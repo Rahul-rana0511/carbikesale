@@ -1035,8 +1035,12 @@
             "example": "1"
           },
           "fuel_cap": {
-            "type": "Number",
+            "type": "string",
             "description": "Enter fuel_cap"
+          },
+          "vehicle_number": {
+            "type": "string",
+            "description": "Enter vehicle_number"
           },
           "displacement": {
             "type": "string",
