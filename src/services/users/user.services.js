@@ -373,6 +373,28 @@ const userServices = {
       return errorRes(res, 500, err.message);
     }
   },
+  carBikeList: async(req,res)=>{
+    try{
+      const vehicleList = await Model.Vehicle.find({is_payment_done: 1}).populate({
+        path: "userId",
+        select: "first_name last_name profile_image country_code phone_number",
+      }).sort({createdAt: -1});
+      const vehicleData = vehicleList.reduce((acc, cur)=>{
+         if(cur.vehicle_type == 1){
+          acc.bikeList.push(cur)
+         }else{
+          acc.carList.push(cur)
+         }
+         return acc;
+      },{
+        carList: [],
+        bikeList: []
+      });
+     return successRes(res, 200, "Bike car list", vehicleData)
+    }catch (err) {
+      return errorRes(res, 500, err.message);
+    }
+  }
 };
 
 export default userServices;

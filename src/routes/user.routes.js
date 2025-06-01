@@ -26,6 +26,8 @@ router.route("/dummyPayment").post(userController.dummyPayment);
 router.route("/getvehicleDetails/:vehicleId").get(userController.getvehicleDetails);
 router.route("/getVehicles").get(userController.getVehicles);
 router.route("/homeScreen").get(userController.homeScreen);
+router.route("/carBikeList").get(userController.carBikeList);
+
 
 
 //--Setting

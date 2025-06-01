@@ -65,6 +65,9 @@ const userController = {
   buyVehicleList: async (req, res) => {
     await userServices.buyVehicleList(req, res);
   },
+  carBikeList: async (req, res) => {
+    await userServices.carBikeList(req, res);
+  },
   createChatRoom: async (req, res) => {
     await chatService.createChatRoom(req, res);
   },

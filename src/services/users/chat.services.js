@@ -28,16 +28,37 @@ export const chatService = {
         created_with: {
           $in: [created_with, userId],
         },
-      });
+      }).populate([
+        {
+          path: "created_by",
+          select: "email first_name last_name role profile_image dob",
+        },
+        {
+          path: "created_with",
+          select: "email first_name last_name role profile_image dob",
+        },
+      ]);
 
       if (isChatroomExists) {
         return successRes(res, 200, "Chat Room", isChatroomExists);
       } else {
         const createRoom = await Model.ChatRoom.create({
           created_by: userId,
-          created_with: created_with
+          created_with: created_with,
         });
-        return successRes(res, 200, "Chat Room", createRoom);
+        const roomData = await Model.ChatRoom.findById(
+          createRoom?._id
+        ).populate([
+          {
+            path: "created_by",
+            select: "email first_name last_name role profile_image dob",
+          },
+          {
+            path: "created_with",
+            select: "email first_name last_name role profile_image dob",
+          },
+        ]);
+        return successRes(res, 200, "Chat Room", roomData);
       }
     } catch (error) {
       return errorRes(res, 500, error.message);
@@ -83,7 +104,7 @@ export const chatService = {
             user_id: userId,
             other_user: data?.sender_id,
             type: "newMessage",
-            misc:{redirectId: data?.room_id}
+            misc: { redirectId: data?.room_id },
           });
         })
       );
@@ -108,21 +129,21 @@ export const chatService = {
       if (!roomId) {
         return successRes(res, 200, "Chat Data", []);
       }
-    //   let isBlocked = 0,
-    //     blockBy = null;
+      //   let isBlocked = 0,
+      //     blockBy = null;
       const chatRoomData = await Model.ChatRoom.findById(roomId);
       if (!chatRoomData) {
         return errorRes(res, 404, "Room not found");
       }
-    //   const isRoomBlocked = await Model.Block.findOne({
-    //     room_id: roomId,
-    //   }).populate({ path: "blockBy", select: "name" });
-    //   if (isRoomBlocked) {
-    //     isBlocked = 1;
-    //     blockBy = isRoomBlocked?.blockBy;
-    //   } else {
-    //     isBlocked = 0;
-    //   }
+      //   const isRoomBlocked = await Model.Block.findOne({
+      //     room_id: roomId,
+      //   }).populate({ path: "blockBy", select: "name" });
+      //   if (isRoomBlocked) {
+      //     isBlocked = 1;
+      //     blockBy = isRoomBlocked?.blockBy;
+      //   } else {
+      //     isBlocked = 0;
+      //   }
       const message_data = await Model.Chat.find({ room_id: roomId })
         .populate({
           path: "sender_id",
@@ -143,9 +164,9 @@ export const chatService = {
         );
         const response = {
           filtered_data: filtered_data,
-        //   isBlocked: isBlocked,
-        //   blockBy: blockBy,
-        //   isAccepted,
+          //   isBlocked: isBlocked,
+          //   blockBy: blockBy,
+          //   isAccepted,
         };
         return successRes(res, 200, "Chat Data", response);
       } else {
@@ -162,15 +183,12 @@ export const chatService = {
       let query = {
         $and: [
           {
-            $or: [
-              { created_by: req.user._id},
-              { created_with: req.user._id}
-            ],
+            $or: [{ created_by: req.user._id }, { created_with: req.user._id }],
             last_message: { $exists: true },
           },
         ],
       };
-  
+
       if (search && search != undefined) {
         let userSearch = await Model.User.find({
           first_name: { $regex: search, $options: "i" },
@@ -212,7 +230,7 @@ export const chatService = {
           room_id: existsRoom._id,
           status: 0,
         });
-        existsRoom.unread_count = unread_count
+        existsRoom.unread_count = unread_count;
 
         const isLastMessageDeleted = await Model.Chat.findOne({
           _id: existsRoom?.last_message?._id,
@@ -225,20 +243,18 @@ export const chatService = {
               deleted_by: { $nin: [req.user._id] },
             },
             null,
-            { sort: { createdAt: -1 } } 
-          )
-            .lean(); 
-          
-          if(!dynamicLastMessage){
+            { sort: { createdAt: -1 } }
+          ).lean();
+
+          if (!dynamicLastMessage) {
             existsRoom.last_message = null;
-      
-          }else{
-            existsRoom.last_message = dynamicLastMessage
+          } else {
+            existsRoom.last_message = dynamicLastMessage;
           }
         }
       }
       existsRooms = existsRooms.filter((room) => room.last_message !== null);
-      console.log(existsRooms,"here")
+      console.log(existsRooms, "here");
       return successRes(
         res,
         200,
@@ -246,7 +262,7 @@ export const chatService = {
         existsRooms
       );
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
       return errorRes(res, 500, error.message);
     }
   },
@@ -265,7 +281,6 @@ export const chatService = {
       return errorRes(res, 500, err.message);
     }
   },
-  
 
   blockUnblockUser: async (req, res) => {
     try {
@@ -367,13 +382,13 @@ export const chatService = {
       return errorRes(res, 500, err.message);
     }
   },
-  deleteMessage : async (req, res) => {
+  deleteMessage: async (req, res) => {
     try {
       const userId = req.user._id;
-      const {messageIds} = req.body;
-      console.log(messageIds,"ids")
+      const { messageIds } = req.body;
+      console.log(messageIds, "ids");
       await Model.Chat.updateMany(
-        { _id: {$in: messageIds} },
+        { _id: { $in: messageIds } },
         {
           $addToSet: { deleted_by: userId },
         }
@@ -382,5 +397,5 @@ export const chatService = {
     } catch (error) {
       return errorRes(res, 500, error.message);
     }
-  }
+  },
 };
