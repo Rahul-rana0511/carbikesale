@@ -105,6 +105,10 @@ const userSchema = new Schema(
       type: String,
       default: null
     },
+    is_online:{
+      type: Number,
+      default: 0
+    }
   },
 
   { timestamps: true }

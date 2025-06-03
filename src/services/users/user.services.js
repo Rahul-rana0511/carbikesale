@@ -46,6 +46,12 @@ const userServices = {
           coordinates: [req.body.long, req.body.lat],
         };
       }
+      // if (req.body.vehicle_number) {
+      //   const vehicleNumberRegex = /^[A-Z]{2}[0-9]{1,2}[A-Z]{1,2}[0-9]{4}$/;
+      //   if (!vehicleNumberRegex.test(req.body.vehicle_number)) {
+      //     return errorRes(res, 400, "Please enter a valid vehicle number")
+      //   }
+      // }
       if (req.body.vehicle_price) {
         const price = parseFloat(req.body.vehicle_price);
         let paying_amount = price * 0.02; //Taking 2% for the post
@@ -152,19 +158,19 @@ const userServices = {
     try {
       const vehicleName = req.query.car; // e.g., Honda
       const search = req.query.search; // e.g., civ
-      const type = req.query.type // 1 -> bike 0 -> car
+      const type = req.query.type; // 1 -> bike 0 -> car
       if (!vehicleName) {
         return errorRes(res, 400, "Vehicle name is required");
       }
       let vehicles;
-      if(type){
+      if (type) {
         vehicles = bikes.find(
-        (c) => c.company.toLowerCase() === vehicleName.toLowerCase()
-      ); 
-      }else{
-         vehicles = cars.find(
-        (c) => c.company.toLowerCase() === vehicleName.toLowerCase()
-      );
+          (c) => c.company.toLowerCase() === vehicleName.toLowerCase()
+        );
+      } else {
+        vehicles = cars.find(
+          (c) => c.company.toLowerCase() === vehicleName.toLowerCase()
+        );
       }
 
       if (!vehicles) {
@@ -374,81 +380,89 @@ const userServices = {
       return errorRes(res, 500, err.message);
     }
   },
-  carBikeList: async(req,res)=>{
-    try{
-      const vehicleList = await Model.Vehicle.find({is_payment_done: 1}).populate({
-        path: "userId",
-        select: "first_name last_name profile_image country_code phone_number",
-      }).sort({createdAt: -1});
-      const vehicleData = vehicleList.reduce((acc, cur)=>{
-         if(cur.vehicle_type == 1){
-          acc.bikeList.push(cur)
-         }else{
-          acc.carList.push(cur)
-         }
-         return acc;
-      },{
-        carList: [],
-        bikeList: []
-      });
-     return successRes(res, 200, "Bike car list", vehicleData)
-    }catch (err) {
+  carBikeList: async (req, res) => {
+    try {
+      const vehicleList = await Model.Vehicle.find({ is_payment_done: 1 })
+        .populate({
+          path: "userId",
+          select:
+            "first_name last_name profile_image country_code phone_number",
+        })
+        .sort({ createdAt: -1 });
+      const vehicleData = vehicleList.reduce(
+        (acc, cur) => {
+          if (cur.vehicle_type == 1) {
+            acc.bikeList.push(cur);
+          } else {
+            acc.carList.push(cur);
+          }
+          return acc;
+        },
+        {
+          carList: [],
+          bikeList: [],
+        }
+      );
+      return successRes(res, 200, "Bike car list", vehicleData);
+    } catch (err) {
       return errorRes(res, 500, err.message);
     }
   },
-  switchAccount: async(req,res)=>{
-  try{
-   const role = req.user.role;
-   let newRole = role == 1 ? 0: 1;
-   const updateRole = await Model.User.findByIdAndUpdate(req.user._id, {$set:{role: newRole}},{new: true});
-   if(!updateRole){
-    return errorRes(res, 404, "User not found")
-   }
-   return successRes(res, 200, `Role switched successfully`, updateRole)
-  }catch (err) {
+  switchAccount: async (req, res) => {
+    try {
+      const role = req.user.role;
+      let newRole = role == 1 ? 0 : 1;
+      const updateRole = await Model.User.findByIdAndUpdate(
+        req.user._id,
+        { $set: { role: newRole } },
+        { new: true }
+      );
+      if (!updateRole) {
+        return errorRes(res, 404, "User not found");
+      }
+      return successRes(res, 200, `Role switched successfully`, updateRole);
+    } catch (err) {
       return errorRes(res, 500, err.message);
     }
-},
-// createPaymentIntent: async(req,res)=>{
-//   try{
-//     const { amount, currency = 'INR', receipt } = req.body;
-// const razorpay = new Razorpay({
-//   key_id: process.env.RAZORPAY_KEY_ID,
-//   key_secret: process.env.RAZORPAY_KEY_SECRET,
-// });
- 
+  },
+  // createPaymentIntent: async(req,res)=>{
+  //   try{
+  //     const { amount, currency = 'INR', receipt } = req.body;
+  // const razorpay = new Razorpay({
+  //   key_id: process.env.RAZORPAY_KEY_ID,
+  //   key_secret: process.env.RAZORPAY_KEY_SECRET,
+  // });
 
-//     const options = {
-//       amount: amount * 100, // amount in the smallest currency unit
-//       currency,
-//       receipt,
-//     };
+  //     const options = {
+  //       amount: amount * 100, // amount in the smallest currency unit
+  //       currency,
+  //       receipt,
+  //     };
 
-//     const order = await razorpay.orders.create(options);
-//     return successRes(res, 200, "Payment successful", order)
-//   }catch (err) {
-//       return errorRes(res, 500, err.message);
-//     }
-// },
-// verifyPayment: async(req,res)=>{
-//   try{
-//   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+  //     const order = await razorpay.orders.create(options);
+  //     return successRes(res, 200, "Payment successful", order)
+  //   }catch (err) {
+  //       return errorRes(res, 500, err.message);
+  //     }
+  // },
+  // verifyPayment: async(req,res)=>{
+  //   try{
+  //   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
-//   const generated_signature = crypto
-//     .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
-//     .update(`${razorpay_order_id}|${razorpay_payment_id}`)
-//     .digest('hex');
+  //   const generated_signature = crypto
+  //     .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
+  //     .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+  //     .digest('hex');
 
-//   if (generated_signature === razorpay_signature) {
-//     return successRes(res, 200, "Payment verified successfully")
-//   } else {
-//     return errorRes(res, 400, "Payment verification failed");
-//   }
-//   }catch (err) {
-//       return errorRes(res, 500, err.message);
-//     }
-// }
+  //   if (generated_signature === razorpay_signature) {
+  //     return successRes(res, 200, "Payment verified successfully")
+  //   } else {
+  //     return errorRes(res, 400, "Payment verification failed");
+  //   }
+  //   }catch (err) {
+  //       return errorRes(res, 500, err.message);
+  //     }
+  // }
 };
-
 
 export default userServices;

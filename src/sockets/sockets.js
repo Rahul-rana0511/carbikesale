@@ -16,7 +16,7 @@ export const connectSocket = async (io)=> {
       const userId = decodedToken.userId;
        user = await Model.User.findById(userId);
       if(user){
-        // user.is_online = 1;
+        user.is_online = 1;
          user.socketId = socket.id
         await user.save();
       }

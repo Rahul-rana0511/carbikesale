@@ -147,7 +147,7 @@ export const chatService = {
       const message_data = await Model.Chat.find({ room_id: roomId })
         .populate({
           path: "sender_id",
-          select: "first_name last_name profile_image",
+          select: "first_name last_name profile_image is_online",
         })
         .sort({ createdAt: -1 });
       const filtered_data = message_data.filter(
@@ -210,11 +210,11 @@ export const chatService = {
         .populate([
           {
             path: "created_by",
-            select: "first_name profile_image email last_name",
+            select: "first_name profile_image email last_name is_online",
           },
           {
             path: "created_with",
-            select: "first_name profile_image email last_name",
+            select: "first_name profile_image email last_name is_online",
           },
           { path: "last_message" },
         ])
