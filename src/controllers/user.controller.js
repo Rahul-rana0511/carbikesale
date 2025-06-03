@@ -76,6 +76,9 @@ const userController = {
   },
   getRoom: async (req, res) => {
     await chatService.getRoom(req, res);
-  }
+  },
+  switchAccount: async (req, res) => {
+    await userServices.switchAccount(req, res);
+  },
 };
 export default userController;

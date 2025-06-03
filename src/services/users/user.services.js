@@ -2,6 +2,7 @@ import { model } from "mongoose";
 import { bikes, cars, indianRegions } from "../../constants/static.js";
 import * as Model from "../../models/index.js";
 import { errorRes, successRes } from "../../utils/response.js";
+import Razorpay from "razorpay";
 import "dotenv/config";
 
 const userServices = {
@@ -49,7 +50,7 @@ const userServices = {
         const price = parseFloat(req.body.vehicle_price);
         let paying_amount = price * 0.02; //Taking 2% for the post
         let discount =
-          req.user.role == 1 ? paying_amount * 0.05 : paying_amount * 0.1;
+          req.user.role == 1 ? paying_amount * 0.1 : paying_amount * 0.05;
         req.body.post_paymnet = paying_amount;
         req.body.total_payment = paying_amount - discount;
         req.body.discount = discount;
@@ -394,7 +395,60 @@ const userServices = {
     }catch (err) {
       return errorRes(res, 500, err.message);
     }
-  }
+  },
+  switchAccount: async(req,res)=>{
+  try{
+   const role = req.user.role;
+   let newRole = role == 1 ? 0: 1;
+   const updateRole = await Model.User.findByIdAndUpdate(req.user._id, {$set:{role: newRole}},{new: true});
+   if(!updateRole){
+    return errorRes(res, 404, "User not found")
+   }
+   return successRes(res, 200, `Role switched successfully`, updateRole)
+  }catch (err) {
+      return errorRes(res, 500, err.message);
+    }
+},
+// createPaymentIntent: async(req,res)=>{
+//   try{
+//     const { amount, currency = 'INR', receipt } = req.body;
+// const razorpay = new Razorpay({
+//   key_id: process.env.RAZORPAY_KEY_ID,
+//   key_secret: process.env.RAZORPAY_KEY_SECRET,
+// });
+ 
+
+//     const options = {
+//       amount: amount * 100, // amount in the smallest currency unit
+//       currency,
+//       receipt,
+//     };
+
+//     const order = await razorpay.orders.create(options);
+//     return successRes(res, 200, "Payment successful", order)
+//   }catch (err) {
+//       return errorRes(res, 500, err.message);
+//     }
+// },
+// verifyPayment: async(req,res)=>{
+//   try{
+//   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+
+//   const generated_signature = crypto
+//     .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
+//     .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+//     .digest('hex');
+
+//   if (generated_signature === razorpay_signature) {
+//     return successRes(res, 200, "Payment verified successfully")
+//   } else {
+//     return errorRes(res, 400, "Payment verification failed");
+//   }
+//   }catch (err) {
+//       return errorRes(res, 500, err.message);
+//     }
+// }
 };
+
 
 export default userServices;

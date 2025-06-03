@@ -44,6 +44,7 @@ router.route("/getRoom").get(userController.getRoom);
 router.route("/getMessage/:roomId").get(userController.getMessage);
 router.route("/createChatRoom").post(userController.createChatRoom);
 
-
+//--Switch Account
+router.route("/switchAccount").put(userController.switchAccount);
 
 export default router;

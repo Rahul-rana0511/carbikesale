@@ -31,8 +31,8 @@ const userSchema = new Schema(
     role: {
       type: Number,
       default: 0,
-      enum: [0, 1, 2],
-      description: "0-> Buyer 1-> Seller 2 -> Dealer",
+      enum: [0, 1],
+      description: "0-> User 1 -> Dealer",
     },
     is_active: {
       type: Number,
