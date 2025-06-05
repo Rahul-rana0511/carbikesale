@@ -796,6 +796,65 @@
         ]
       }
     },
+     "/api/user/blockUnblockUser": {
+      "post": {
+        "tags": ["Chat Flow"],
+        "summary": "Block Unblock User Api( 1 -> Block 2 -> Unblock)",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/blockUnblockUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "400": {
+            "description": "Bad request - Invalid input, validation error"
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failure"
+          },
+          "500": {
+            "description": "Internal server error - Something went wrong on the server side"
+          }
+        },
+        "security": [
+          {
+            "access_token": ["access_token"]
+          }
+        ]
+      }
+    },
+    "/api/user/blockUserList": {
+      "get": {
+        "tags": ["Chat Flow"],
+        "summary": "Get All Block User list Api",
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "400": {
+            "description": "Bad request - Invalid input, validation error"
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failure"
+          },
+          "500": {
+            "description": "Internal server error - Something went wrong on the server side"
+          }
+        },
+        "security": [
+          {
+            "access_token": ["access_token"]
+          }
+        ]
+      }
+    },
     "/api/user/switchAccount": {
         "put": {
           "tags": [
@@ -905,6 +964,19 @@
             "created_with": {
               "type": "string",
               "description": "enter created_with"
+            }
+          }
+        },
+        "blockUnblockUser": {
+          "type": "object",
+          "properties": {
+            "userId": {
+              "type": "string",
+              "description": "enter userId"
+            },
+            "type": {
+              "type": "number",
+              "description": "enter type"
             }
           }
         },

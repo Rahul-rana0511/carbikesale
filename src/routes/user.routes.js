@@ -43,6 +43,9 @@ router.route("/buyVehicleList").get(userController.buyVehicleList)
 router.route("/getRoom").get(userController.getRoom);
 router.route("/getMessage/:roomId").get(userController.getMessage);
 router.route("/createChatRoom").post(userController.createChatRoom);
+router.route("/blockUserList").get(userController.blockUserList);
+router.route("/blockUnblockUser").post(userController.blockUnblockUser);
+
 
 //--Switch Account
 router.route("/switchAccount").put(userController.switchAccount);

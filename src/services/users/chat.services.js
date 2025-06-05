@@ -129,21 +129,26 @@ export const chatService = {
       if (!roomId) {
         return successRes(res, 200, "Chat Data", []);
       }
-      //   let isBlocked = 0,
-      //     blockBy = null;
+        let isBlocked = 0,
+          blockBy = null;
       const chatRoomData = await Model.ChatRoom.findById(roomId);
+       let other_user =
+        chatRoomData?.created_by?.toString() === req.user._id.toString()
+          ? chatRoomData?.created_with
+          : chatRoomData?.created_by;
       if (!chatRoomData) {
         return errorRes(res, 404, "Room not found");
       }
-      //   const isRoomBlocked = await Model.Block.findOne({
-      //     room_id: roomId,
-      //   }).populate({ path: "blockBy", select: "name" });
-      //   if (isRoomBlocked) {
-      //     isBlocked = 1;
-      //     blockBy = isRoomBlocked?.blockBy;
-      //   } else {
-      //     isBlocked = 0;
-      //   }
+        const isRoomBlocked = await Model.Block.findOne({
+        blockBy: other_user,
+        blockTo: req.user._id,
+      }).populate({ path: "blockBy", select: "first_name last_name profile_image" });
+        if (isRoomBlocked) {
+          isBlocked = 1;
+          blockBy = isRoomBlocked?.blockBy;
+        } else {
+          isBlocked = 0;
+        }
       const message_data = await Model.Chat.find({ room_id: roomId })
         .populate({
           path: "sender_id",
@@ -164,9 +169,8 @@ export const chatService = {
         );
         const response = {
           filtered_data: filtered_data,
-          //   isBlocked: isBlocked,
-          //   blockBy: blockBy,
-          //   isAccepted,
+            isBlocked: isBlocked,
+            blockBy: blockBy,
         };
         return successRes(res, 200, "Chat Data", response);
       } else {
@@ -180,6 +184,11 @@ export const chatService = {
   getRoom: async (req, res) => {
     try {
       let { search } = req.query;
+        const blockedUser = await Model.Block.find({
+        blockBy: req.user._id,
+      });
+    
+      const blockedUserIds = blockedUser.map((block) => block?.blockTo?.toString());
       let query = {
         $and: [
           {
@@ -188,7 +197,14 @@ export const chatService = {
           },
         ],
       };
-
+ if (blockedUserIds.length > 0) {
+        query.$and.push({
+          $nor: [
+            { created_by: { $in: blockedUserIds } },
+            { created_with: { $in: blockedUserIds } },
+          ],
+        });
+      }
       if (search && search != undefined) {
         let userSearch = await Model.User.find({
           first_name: { $regex: search, $options: "i" },
@@ -220,6 +236,7 @@ export const chatService = {
         ])
         .sort({ updatedAt: -1 })
         .lean();
+        console.log(existsRooms,"test")
       if (existsRooms.length === 0) {
         return successRes(res, 200, "Chat Room", []);
       }
@@ -284,21 +301,14 @@ export const chatService = {
 
   blockUnblockUser: async (req, res) => {
     try {
-      const { userId, reason, desc, type, room_id } = req.body;
-      const isAlreadyBlocked = await Model.Block.findOne({
-        blockBy: req.user._id,
-        blockTo: userId,
-        roomId: room_id,
-      });
-      const userDetails = await Model.User.findById(userId);
+      const { userId, type } = req.body;
+       const userDetails = await Model.User.findById(userId);
       if (!userDetails) {
         return errorRes(res, 404, "User not found");
       }
-      const isAlreadyReported = await Model.Report.findOne({
-        reportBy: req.user._id,
-        reportTo: userId,
-        roomId: room_id,
-        status: 0,
+      const isAlreadyBlocked = await Model.Block.findOne({
+        blockBy: req.user._id,
+        blockTo: userId,
       });
       if (type == 1) {
         if (isAlreadyBlocked) {
@@ -307,58 +317,14 @@ export const chatService = {
         const blockUser = await Model.Block.create({
           blockBy: req.user._id,
           blockTo: userId,
-          reason,
-          desc,
-          roomId: room_id,
         });
-        await Model.Report.create({
-          reportBy: req.user._id,
-          reportTo: userId,
-          reason,
-          desc,
-          roomId: room_id,
-          type: 3,
-        });
-        let io = getSocketIo();
-        io.to(userDetails?.socketId).emit("user_blocked");
-        return successRes(
-          res,
-          200,
-          "User blocked & reported successfully",
-          blockUser
-        );
-      } else if (type == 2) {
-        if (isAlreadyBlocked) {
-          return errorRes(res, 400, "User already blocked");
-        }
-        const blockUser = await Model.Block.create({
-          blockBy: req.user._id,
-          blockTo: userId,
-          reason,
-          desc,
-          roomId: room_id,
-        });
-        let io = getSocketIo();
-        io.to(userDetails?.socketId).emit("user_blocked");
+
         return successRes(res, 200, "User blocked successfully", blockUser);
-      } else if (type == 3) {
-        if (isAlreadyReported) {
-          return errorRes(res, 400, "User already reported");
+      } else if (type == 2) {
+        const deleteBlockRecord = await Model.Block.findByIdAndDelete(isAlreadyBlocked?._id);
+        if(!deleteBlockRecord){
+          return errorRes(res, 404, "Block record not found")
         }
-        const reportUser = await Model.Report.create({
-          reportBy: req.user._id,
-          reportTo: userId,
-          reason,
-          desc,
-          roomId: room_id,
-          type: 3,
-        });
-        return successRes(res, 200, "User reported successfully", reportUser);
-      } else if (type == 4) {
-        const deleteBlockRecord = await Model.Block.findOneAndDelete({
-          blockBy: req.user._id,
-          blockTo: userId,
-        });
         return successRes(
           res,
           200,
@@ -373,9 +339,9 @@ export const chatService = {
   blockUserList: async (req, res) => {
     try {
       const blockedUser = await Model.Block.find({
-        block_by: req.user._id,
+        blockBy: req.user._id,
       })
-        .populate({ path: "block_to", select: "user_name profile_image name" })
+        .populate({ path: "blockTo", select: "first_name last_name profile_image" })
         .sort({ createdAt: -1 });
       return successRes(res, 200, "Blocked user list", blockedUser);
     } catch (err) {

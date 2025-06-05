@@ -77,6 +77,12 @@ const userController = {
   getRoom: async (req, res) => {
     await chatService.getRoom(req, res);
   },
+  blockUserList: async (req, res) => {
+    await chatService.blockUserList(req, res);
+  },
+  blockUnblockUser: async (req, res) => {
+    await chatService.blockUnblockUser(req, res);
+  },
   switchAccount: async (req, res) => {
     await userServices.switchAccount(req, res);
   },
