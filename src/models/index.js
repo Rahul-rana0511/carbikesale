@@ -6,6 +6,7 @@ import readUnread from "./read.unread.js";;
 import Chat from "./chats.js";
 import ChatRoom from "./chat.room.js";
 import Block from "./blocks.js";
+import Review from "./reviews.js";
 export{
     User,
     Search,
@@ -14,5 +15,6 @@ export{
     readUnread,
     Chat,
     ChatRoom,
-    Block
+    Block,
+    Review
 }

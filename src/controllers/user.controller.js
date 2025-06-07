@@ -77,6 +77,9 @@ const userController = {
   getRoom: async (req, res) => {
     await chatService.getRoom(req, res);
   },
+  clearChat: async (req, res) => {
+    await chatService.clearChat(req, res);
+  },
   blockUserList: async (req, res) => {
     await chatService.blockUserList(req, res);
   },
@@ -85,6 +88,12 @@ const userController = {
   },
   switchAccount: async (req, res) => {
     await userServices.switchAccount(req, res);
+  },
+   addReviews: async (req, res) => {
+    await userServices.addReviews(req, res);
+  },
+   getReviews: async (req, res) => {
+    await userServices.getReviews(req, res);
   },
 };
 export default userController;

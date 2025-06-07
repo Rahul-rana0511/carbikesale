@@ -463,6 +463,36 @@ const userServices = {
   //       return errorRes(res, 500, err.message);
   //     }
   // }
+  addReviews: async (req, res) => {
+    try {
+      const isReveiwExists = await Model.Review.findOne({
+        userId: req.user._id,
+      });
+      if (isReveiwExists) {
+        return errorRes(res, 404, "Review already exists");
+      }
+      const addReview = await Model.Review.create({
+        ...req.body,
+        userId: req.user._id,
+      });
+      return successRes(res, 200, "Review added successfully", addReview);
+    } catch (err) {
+      return errorRes(res, 500, err.message);
+    }
+  },
+  getReviews: async (req, res) => {
+    try {
+      const allReviews = await Model.Review.find({})
+        .populate({
+          path: "userId",
+          select: "first_name  last_name profile_image",
+        })
+        .sort({ createdAt: -1 });
+        return successRes(res, 200, "Reveiw fetched successfully", allReviews)
+    } catch (err) {
+      return errorRes(res, 500, err.message);
+    }
+  },
 };
 
 export default userServices;

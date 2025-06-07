@@ -184,11 +184,21 @@ export const chatService = {
   getRoom: async (req, res) => {
     try {
       let { search } = req.query;
-        const blockedUser = await Model.Block.find({
-        blockBy: req.user._id,
-      });
-    
-      const blockedUserIds = blockedUser.map((block) => block?.blockTo?.toString());
+      //   const blockedUser = await Model.Block.find({
+      //   blockBy: req.user._id,
+      // });
+    const blockedUser = await Model.Block.find({
+  $or: [
+    { blockBy: req.user._id },
+    { blockTo: req.user._id },
+  ],
+});
+      // const blockedUserIds = blockedUser.map((block) => block?.blockTo?.toString());
+      const blockedUserIds = blockedUser.map((block) =>
+  block?.blockBy?.toString() === req.user._id.toString()
+    ? block?.blockTo?.toString()
+    : block?.blockBy?.toString()
+);
       let query = {
         $and: [
           {

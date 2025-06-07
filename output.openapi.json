@@ -852,6 +852,44 @@
         ]
       }
     },
+    "/api/user/clearChat": {
+      "put": {
+        "tags": [
+          "Chat Flow"
+        ],
+        "summary": "Clear chat api",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/clearChat"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "400": {
+            "description": "Bad request - Invalid input, validation error"
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failure"
+          },
+          "500": {
+            "description": "Internal server error - Something went wrong on the server side"
+          }
+        },
+        "security": [
+          {
+            "access_token": [
+              "access_token"
+            ]
+          }
+        ]
+      }
+    },
     "/api/user/blockUserList": {
       "get": {
         "tags": [
@@ -909,6 +947,73 @@
           }
         ]
       }
+    },
+    "/api/user/addReviews": {
+      "post": {
+        "tags": [
+          "Review"
+        ],
+        "summary": "Add Review Api",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/addReviews"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "400": {
+            "description": "Bad request - Invalid input, validation error"
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failure"
+          },
+          "500": {
+            "description": "Internal server error - Something went wrong on the server side"
+          }
+        },
+        "security": [
+          {
+            "access_token": [
+              "access_token"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/user/getReviews": {
+      "get": {
+        "tags": [
+          "Review"
+        ],
+        "summary": "Get All Review Api",
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "400": {
+            "description": "Bad request - Invalid input, validation error"
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failure"
+          },
+          "500": {
+            "description": "Internal server error - Something went wrong on the server side"
+          }
+        },
+        "security": [
+          {
+            "access_token": [
+              "access_token"
+            ]
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -934,6 +1039,19 @@
           "name": {
             "type": "string",
             "description": "Give name to service"
+          }
+        }
+      },
+      "addReviews": {
+        "type": "object",
+        "properties": {
+          "review": {
+            "type": "string",
+            "description": "enter review"
+          },
+          "ratings": {
+            "type": "number",
+            "description": "add Rating"
           }
         }
       },
@@ -1003,6 +1121,15 @@
           "type": {
             "type": "number",
             "description": "enter type"
+          }
+        }
+      },
+      "clearChat": {
+        "type": "object",
+        "properties": {
+          "room_id": {
+            "type": "string",
+            "description": "enter room_id"
           }
         }
       },
