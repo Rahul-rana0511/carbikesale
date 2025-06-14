@@ -980,7 +980,65 @@
           }
         ]
       }
-    }
+    },
+    "/api/user/deleteAccount": {
+        "delete": {
+          "tags": [
+            "Setting"
+          ],
+          "summary": "delete Account Api",
+          "responses": {
+            "200": {
+              "description": "Successful Operation"
+            },
+            "400": {
+              "description": "Bad request - Invalid input, validation error"
+            },
+            "401": {
+              "description": "Unauthorized - Authentication failure"
+            },
+            "500": {
+              "description": "Internal server error - Something went wrong on the server side"
+            }
+          },
+          "security": [
+            {
+              "access_token": [
+                "access_token"
+              ]
+            }
+          ]
+        }
+      },
+      "/api/user/logout": {
+        "patch": {
+          "tags": [
+            "Setting"
+          ],
+          "summary": "logout Account Api",
+          "responses": {
+            "200": {
+              "description": "Successful Operation"
+            },
+            "400": {
+              "description": "Bad request - Invalid input, validation error"
+            },
+            "401": {
+              "description": "Unauthorized - Authentication failure"
+            },
+            "500": {
+              "description": "Internal server error - Something went wrong on the server side"
+            }
+          },
+          "security": [
+            {
+              "access_token": [
+                "access_token"
+              ]
+            }
+          ]
+        }
+      }
     },
     "components": {
       "schemas": {

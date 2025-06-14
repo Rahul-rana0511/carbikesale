@@ -212,6 +212,10 @@ const userServices = {
       let allStates = indianRegions;
       const userId = req.user._id;
       const likedCarList = await Model.Likevehicle.find({ userId });
+       const blockedUser = await Model.Block.find({
+        blockBy: req.user._id,
+      });
+      const blockedUserIds = blockedUser.map((block) => block?.blockTo?.toString());
       const likeVehicleIds = likedCarList.map((like) =>
         like?.vehicleId?.toString()
       );
@@ -221,6 +225,7 @@ const userServices = {
       if (mostlySearch.length < 5) {
         famousCars = await Model.Vehicle.find({
           is_payment_done: 1,
+          userId: {$nin: blockedUserIds}
           // vehicle_type: 0,
         })
           .sort({ createdAt: -1 })
@@ -232,10 +237,12 @@ const userServices = {
         );
         famousCars = await Model.Vehicle.find({
           _id: { $in: searchIds },
+          userId: {$nin: blockedUserIds}
         }).lean();
       }
       const bestValue = await Model.Vehicle.find({
         is_payment_done: 1,
+        userId: {$nin: blockedUserIds}
         // vehicle_type: 0,
       })
         .sort({ vehicle_price: 1 })
@@ -243,6 +250,7 @@ const userServices = {
         .lean();
       const newlyAdded = await Model.Vehicle.find({
         is_payment_done: 1,
+        userId: {$nin: blockedUserIds}
         // vehicle_type: 0,
       })
         .sort({ createdAt: -1 })
@@ -250,6 +258,7 @@ const userServices = {
         .lean();
       const allCars = await Model.Vehicle.find({
         is_payment_done: 1,
+        userId: {$nin: blockedUserIds}
         // vehicle_type: 0,
       }).lean();
       for (let state of allStates) {

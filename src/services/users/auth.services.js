@@ -5,8 +5,6 @@ import JWT from "jsonwebtoken";
 import "dotenv/config";
 const JWT_SECRET_KEY = process.env.JWT_SECRET;
 
-
-
 const authServices = {
   uploadImages: async (req, res) => {
     try {
@@ -22,22 +20,14 @@ const authServices = {
 
   registerUser: async (req, res) => {
     try {
-      const {
-        phone_number,
-        country_code,
-        password
-      } = req.body;
+      const { phone_number, country_code, password } = req.body;
       const isNumberExists = await Model.User.findOne({
         phone_number: phone_number,
         country_code: country_code,
       });
       if (isNumberExists) {
         if (isNumberExists.phone_verified) {
-          return errorRes(
-            res,
-            400,
-            "Phone number already exists"
-          );
+          return errorRes(res, 400, "Phone number already exists");
         }
       }
       // Hash password
@@ -48,9 +38,8 @@ const authServices = {
       const newUser = await Model.User.create({
         ...req.body,
         password: hashPassword,
-        otp
+        otp,
       });
-   
 
       return successRes(
         res,
@@ -64,8 +53,14 @@ const authServices = {
   },
   login: async (req, res) => {
     try {
-      const { phone_number,country_code, password, device_token, device_type, device_model } =
-        req.body;
+      const {
+        phone_number,
+        country_code,
+        password,
+        device_token,
+        device_type,
+        device_model,
+      } = req.body;
       const user = await Model.User.findOne({
         phone_number: phone_number,
         country_code: country_code,
@@ -137,7 +132,7 @@ const authServices = {
   forgetpassword: async (req, res) => {
     try {
       const { phone_number, country_code } = req.body;
-      const user = await Model.User.findOne({ phone_number, country_code});
+      const user = await Model.User.findOne({ phone_number, country_code });
       if (!user) {
         return errorRes(res, 404, "User Not Found");
       }
@@ -239,7 +234,12 @@ const authServices = {
           token,
         };
         await user.save();
-        return successRes(res, 200, "Phone number verified successfully.", response);
+        return successRes(
+          res,
+          200,
+          "Phone number verified successfully.",
+          response
+        );
       } else {
         return errorRes(res, 400, "Invalid OTP");
       }
@@ -248,9 +248,41 @@ const authServices = {
     }
   },
 
-
-  
-
+  logout: async (req, res) => {
+    try {
+      const user = await Model.User.findByIdAndUpdate(
+        req.user._id,
+        {
+          $set: {
+            device_token: null,
+          },
+        },
+        { new: true }
+      );
+      return successRes(res, 200, "User logout successfully", user);
+    } catch (err) {
+      return errorRes(res, 500, err.message);
+    }
+  },
+  deleteAccount: async (req, res) => {
+    try {
+      const userId = req.user._id;
+      const user = await Model.User.findByIdAndDelete(userId);
+      await Model.Vehicle.deleteMany({ userId });
+      await Model.Block.deleteMany({
+        $or: [{ blockBy: req.user._id }, { blockTo: req.user._id }],
+      });
+      await Model.ChatRoom.deleteMany({
+        $or: [{ created_by: req.user._id }, { created_by: req.user._id }],
+      });
+      await Model.Likevehicle.deleteMany({ userId });
+      await Model.Review.deleteMany({ userId });
+      await Model.Search.deleteMany({ userId });
+      return successRes(res, 200, "User deleted successfully", user);
+    } catch (err) {
+      return errorRes(res, 500, err.message);
+    }
+  },
   dropTables: async (req, res) => {
     try {
       await Model.Vehicle.deleteMany({});
@@ -265,9 +297,6 @@ const authServices = {
       return errorRes(res, 500, err.message);
     }
   },
- 
- 
-
 };
 
 export default authServices;

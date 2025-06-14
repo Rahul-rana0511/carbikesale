@@ -17,6 +17,12 @@ const userController = {
   forgetpassword: async (req, res) => {
     await authServices.forgetpassword(req, res);
   },
+  logout: async (req, res) => {
+    await authServices.logout(req, res);
+  },
+  deleteAccount: async (req, res) => {
+    await authServices.deleteAccount(req, res);
+  },
   resetPassword: async (req, res) => {
     await authServices.resetPassword(req, res);
   },
