@@ -1364,6 +1364,10 @@
               "type": "number",
               "description": "Enter view_camera",
               "example": "0 -> No 1 -> Yes"
+            },
+            "desc": {
+              "type": "string",
+              "description": "Enter desc"
             }
           }
         },

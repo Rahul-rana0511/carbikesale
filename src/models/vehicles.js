@@ -16,6 +16,10 @@ const vehicleSchema = new Schema(
         type: String,
         default: null
     },
+    desc:{
+        type: String,
+        default: null
+    },
     vehicle_model: {
       type: String,
       default: null
