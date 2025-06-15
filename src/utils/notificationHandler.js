@@ -2,9 +2,7 @@ import "dotenv/config";
 import * as Model from "../models/index.js";
 import firebase from "firebase-admin";
 import {newBooking, completeBooking, cancelBooking, reScheduleBooking, newMessage} from "./pushNotificationData.js";
-import serviceAccount from "../../car_bike_firebase.json" assert {
-    type : "json"
-};
+import {serviceAccount} from "../../car_bike_firebase.js";
 firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccount),
 });
@@ -14,6 +12,7 @@ const buildDataPayload = (
   type,
   user_id,
   other_user,
+
   desc,
   redirectId,
   senderId
