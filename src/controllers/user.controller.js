@@ -101,5 +101,17 @@ const userController = {
    getReviews: async (req, res) => {
     await userServices.getReviews(req, res);
   },
+  editVehicle: async (req, res) => {
+    await userServices.editVehicle(req, res);
+  },
+  delVehicle: async (req, res) => {
+    await userServices.delVehicle(req, res);
+  },
+  myvehicles: async (req, res) => {
+    await userServices.myvehicles(req, res);
+  },
+  popularModelList: async (req, res) => {
+    await userServices.popularModelList(req, res);
+  },
 };
 export default userController;

@@ -208,14 +208,17 @@ const userServices = {
   },
   homeScreen: async (req, res) => {
     try {
-      let result = [...cars,...bikes];
+      let result = [...cars, ...bikes];
       let allStates = indianRegions;
       const userId = req.user._id;
       const likedCarList = await Model.Likevehicle.find({ userId });
-       const blockedUser = await Model.Block.find({
+      const blockedUser = await Model.Block.find({
         blockBy: req.user._id,
       });
-      const blockedUserIds = blockedUser.map((block) => block?.blockTo?.toString());
+      const blockedUserIds = blockedUser.map((block) =>
+        block?.blockTo?.toString()
+      );
+      blockedUserIds.push(req.user._id.toString());
       const likeVehicleIds = likedCarList.map((like) =>
         like?.vehicleId?.toString()
       );
@@ -225,7 +228,7 @@ const userServices = {
       if (mostlySearch.length < 5) {
         famousCars = await Model.Vehicle.find({
           is_payment_done: 1,
-          userId: {$nin: blockedUserIds}
+          userId: { $nin: blockedUserIds },
           // vehicle_type: 0,
         })
           .sort({ createdAt: -1 })
@@ -237,12 +240,12 @@ const userServices = {
         );
         famousCars = await Model.Vehicle.find({
           _id: { $in: searchIds },
-          userId: {$nin: blockedUserIds}
+          userId: { $nin: blockedUserIds },
         }).lean();
       }
       const bestValue = await Model.Vehicle.find({
         is_payment_done: 1,
-        userId: {$nin: blockedUserIds}
+        userId: { $nin: blockedUserIds },
         // vehicle_type: 0,
       })
         .sort({ vehicle_price: 1 })
@@ -250,7 +253,7 @@ const userServices = {
         .lean();
       const newlyAdded = await Model.Vehicle.find({
         is_payment_done: 1,
-        userId: {$nin: blockedUserIds}
+        userId: { $nin: blockedUserIds },
         // vehicle_type: 0,
       })
         .sort({ createdAt: -1 })
@@ -258,7 +261,7 @@ const userServices = {
         .lean();
       const allCars = await Model.Vehicle.find({
         is_payment_done: 1,
-        userId: {$nin: blockedUserIds}
+        userId: { $nin: blockedUserIds },
         // vehicle_type: 0,
       }).lean();
       for (let state of allStates) {
@@ -357,7 +360,7 @@ const userServices = {
   },
   buyVehicleList: async (req, res) => {
     try {
-      const { type, sort } = req.query;
+      const { type, sort, brand, model } = req.query;
       let query = { is_payment_done: 1 };
       let filterQuery = { vehicle_price: 1 };
       if (type == 1) {
@@ -367,6 +370,12 @@ const userServices = {
       }
       if (sort == 1) {
         filterQuery.vehicle_price = -1;
+      }
+      if(brand){
+        query.vehicle_brand = brand;
+      }
+      if(model){
+        query.vehicle_model = model;
       }
       const vehcileList = await Model.Vehicle.find(query)
         .sort(filterQuery)
@@ -497,11 +506,93 @@ const userServices = {
           select: "first_name  last_name profile_image",
         })
         .sort({ createdAt: -1 });
-        return successRes(res, 200, "Reveiw fetched successfully", allReviews)
+      return successRes(res, 200, "Reveiw fetched successfully", allReviews);
     } catch (err) {
       return errorRes(res, 500, err.message);
     }
   },
+  myvehicles: async (req, res) => {
+    try {
+      const vehicleList = await Model.Vehicle.find({
+        userId: req.user._id,
+      }).sort({ createdAt: -1 });
+
+      return successRes(res, 200, "Review added successfully", vehicleList);
+    } catch (err) {
+      return errorRes(res, 500, err.message);
+    }
+  },
+  delVehicle: async (req, res) => {
+    try {
+      const delData = await Model.Vehicle.findByIdAndDelete(
+        req.params.vehicleId
+      );
+      if (!delData) {
+        return errorRes(res, 404, "Vehicle details not found");
+      }
+      return successRes(res, 200, "Vehicle deleted successfully", delData);
+    } catch (err) {
+      return errorRes(res, 500, err.message);
+    }
+  },
+  editVehicle: async (req, res) => {
+    try {
+      if (req.body.lat && req.body.long) {
+        req.body.location = {
+          type: "Point",
+          coordinates: [req.body.long, req.body.lat],
+        };
+      }
+      // if (req.body.vehicle_number) {
+      //   const vehicleNumberRegex = /^[A-Z]{2}[0-9]{1,2}[A-Z]{1,2}[0-9]{4}$/;
+      //   if (!vehicleNumberRegex.test(req.body.vehicle_number)) {
+      //     return errorRes(res, 400, "Please enter a valid vehicle number")
+      //   }
+      // }
+
+      const updateData = await Model.Vehicle.findByIdAndUpdate(
+        req.body.vehcileId,
+        {
+          $set: {
+            ...req.body,
+          },
+        },
+        { new: true }
+      );
+      if(!updateData){
+      return errorRes(res, 404, "Vehicle details not found")
+      }
+      return successRes(res, 200, "Vehicle details updated successfully", updateData);
+    } catch (err) {
+      return errorRes(res, 500, err.message);
+    }
+  },
+  popularModelList: async(req,res)=>{
+    try{
+     const searchList = await Model.Search.find({}).populate({path: "vehicleId", select: "vehicle_model"});
+     let modelList = [];
+    for(let search of searchList){
+      if(!(modelList.includes(search?.vehicleId?.vehicle_model))){
+       modelList.push(search?.vehicleId?.vehicle_model)
+      }
+    }
+    if(modelList.length < 8){
+      let removeVehicles = searchList.map((search)=> search?.vehicleId?.toString())
+      const allVehicles = await Model.Vehicle.find({_id: {$nin: removeVehicles}});
+        for(let search of allVehicles){
+      if(!(modelList.includes(search?.vehicle_model))){
+       modelList.push(search?.vehicle_model)
+      }
+      if(modelList.length >= 8){
+        break;
+      }
+    }
+    }
+    return successRes(res, 200, "Search model list", modelList)
+    }catch (err) {
+      return errorRes(res, 500, err.message);
+    }
+  }
 };
 
 export default userServices;

@@ -273,7 +273,7 @@ const authServices = {
         $or: [{ blockBy: req.user._id }, { blockTo: req.user._id }],
       });
       await Model.ChatRoom.deleteMany({
-        $or: [{ created_by: req.user._id }, { created_by: req.user._id }],
+        $or: [{ created_by: req.user._id }, { created_with: req.user._id }],
       });
       await Model.Likevehicle.deleteMany({ userId });
       await Model.Review.deleteMany({ userId });
