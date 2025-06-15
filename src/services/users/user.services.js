@@ -208,7 +208,7 @@ const userServices = {
   },
   homeScreen: async (req, res) => {
     try {
-      let result = cars;
+      let result = [...cars,...bikes];
       let allStates = indianRegions;
       const userId = req.user._id;
       const likedCarList = await Model.Likevehicle.find({ userId });
