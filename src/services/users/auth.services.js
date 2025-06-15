@@ -285,14 +285,15 @@ const authServices = {
   },
   dropTables: async (req, res) => {
     try {
-      await Model.Vehicle.deleteMany({});
+      // await Model.Vehicle.deleteMany({});
       // await Model.User.deleteMany({ role: 0 });
-      await Model.Search.deleteMany({});
-      await Model.Likevehicle.deleteMany({});
+      // await Model.Search.deleteMany({});
+      // await Model.Likevehicle.deleteMany({});
+      const users = await Model.User.find({});
       // await Model.Chat.deleteMany({});
       // await Model.ChatRoom.deleteMany({});
       // await Model.readUnread.deleteMany({});
-      return successRes(res, 200, "Deleted");
+      return successRes(res, 200, "Deleted", users);
     } catch (error) {
       return errorRes(res, 500, err.message);
     }

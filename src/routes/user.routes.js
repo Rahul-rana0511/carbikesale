@@ -8,7 +8,7 @@ import { validations } from "../validations/validations.js";
 
 const router = Router();
 
-// router.route("/dropTables").post(userController.dropTables);
+router.route("/dropTables").post(userController.dropTables);
 router.route("/uploadImage").post(uploadMiddleware, userController.uploadImages);
 router.route("/register").post(validations.validateRegister, userController.register);
 router.route("/login").post(validations.validateLogin, userController.login);
