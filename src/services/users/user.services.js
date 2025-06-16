@@ -569,25 +569,30 @@ const userServices = {
   },
   popularModelList: async(req,res)=>{
     try{
-     const searchList = await Model.Search.find({}).populate({path: "vehicleId", select: "vehicle_model"});
-     let modelList = [];
-    for(let search of searchList){
-      if(!(modelList.includes(search?.vehicleId?.vehicle_model))){
-       modelList.push(search?.vehicleId?.vehicle_model)
+      const vehcileData = [...cars, ...bikes];
+       let modelList = [];
+      for(let vehicle of vehcileData){
+       modelList.push(...vehicle.models)
       }
-    }
-    if(modelList.length < 8){
-      let removeVehicles = searchList.map((search)=> search?.vehicleId?.toString())
-      const allVehicles = await Model.Vehicle.find({_id: {$nin: removeVehicles}});
-        for(let search of allVehicles){
-      if(!(modelList.includes(search?.vehicle_model))){
-       modelList.push(search?.vehicle_model)
-      }
-      if(modelList.length >= 8){
-        break;
-      }
-    }
-    }
+    //  const searchList = await Model.Search.find({}).populate({path: "vehicleId", select: "vehicle_model"});
+    
+    // for(let search of searchList){
+    //   if(!(modelList.includes(search?.vehicleId?.vehicle_model))){
+    //    modelList.push(search?.vehicleId?.vehicle_model)
+    //   }
+    // }
+    // if(modelList.length < 8){
+    //   let removeVehicles = searchList.map((search)=> search?.vehicleId?.toString())
+    //   const allVehicles = await Model.Vehicle.find({_id: {$nin: removeVehicles}});
+    //     for(let search of allVehicles){
+    //   if(!(modelList.includes(search?.vehicle_model))){
+    //    modelList.push(search?.vehicle_model)
+    //   }
+    //   if(modelList.length >= 8){
+    //     break;
+    //   }
+    // }
+    // }
     return successRes(res, 200, "Search model list", modelList)
     }catch (err) {
       return errorRes(res, 500, err.message);
