@@ -4,6 +4,7 @@ import * as Model from "../../models/index.js";
 import { errorRes, successRes } from "../../utils/response.js";
 import Razorpay from "razorpay";
 import "dotenv/config";
+import pushNotification from "../../utils/notificationHandler.js";
 
 const userServices = {
   getProfile: async (req, res) => {
@@ -65,6 +66,15 @@ const userServices = {
         ...req.body,
         userId: req.user._id,
       });
+      const users = await Model.User.find({ _id: { $ne: req.user._id } });
+      for (let user of users) {
+        await pushNotification({
+          user_id: user?._id,
+          other_user: req.user._id,
+          type: "vehicleAdded",
+          misc: { redirectId: addData?._id },
+        });
+      }
       return successRes(res, 200, "Vehicle added successfully", addData);
     } catch (err) {
       return errorRes(res, 500, err.message);
@@ -371,10 +381,10 @@ const userServices = {
       if (sort == 1) {
         filterQuery.vehicle_price = -1;
       }
-      if(brand){
+      if (brand) {
         query.vehicle_brand = brand;
       }
-      if(model){
+      if (model) {
         query.vehicle_model = model;
       }
       const vehcileList = await Model.Vehicle.find(query)
@@ -559,45 +569,60 @@ const userServices = {
         },
         { new: true }
       );
-      if(!updateData){
-      return errorRes(res, 404, "Vehicle details not found")
+      if (!updateData) {
+        return errorRes(res, 404, "Vehicle details not found");
       }
-      return successRes(res, 200, "Vehicle details updated successfully", updateData);
+      return successRes(
+        res,
+        200,
+        "Vehicle details updated successfully",
+        updateData
+      );
     } catch (err) {
       return errorRes(res, 500, err.message);
     }
   },
-  popularModelList: async(req,res)=>{
-    try{
+  popularModelList: async (req, res) => {
+    try {
       const vehcileData = [...cars, ...bikes];
-       let modelList = [];
-      for(let vehicle of vehcileData){
-       modelList.push(...vehicle.models)
+      let modelList = [];
+      for (let vehicle of vehcileData) {
+        modelList.push(...vehicle.models);
       }
-    //  const searchList = await Model.Search.find({}).populate({path: "vehicleId", select: "vehicle_model"});
-    
-    // for(let search of searchList){
-    //   if(!(modelList.includes(search?.vehicleId?.vehicle_model))){
-    //    modelList.push(search?.vehicleId?.vehicle_model)
-    //   }
-    // }
-    // if(modelList.length < 8){
-    //   let removeVehicles = searchList.map((search)=> search?.vehicleId?.toString())
-    //   const allVehicles = await Model.Vehicle.find({_id: {$nin: removeVehicles}});
-    //     for(let search of allVehicles){
-    //   if(!(modelList.includes(search?.vehicle_model))){
-    //    modelList.push(search?.vehicle_model)
-    //   }
-    //   if(modelList.length >= 8){
-    //     break;
-    //   }
-    // }
-    // }
-    return successRes(res, 200, "Search model list", modelList)
-    }catch (err) {
+      //  const searchList = await Model.Search.find({}).populate({path: "vehicleId", select: "vehicle_model"});
+
+      // for(let search of searchList){
+      //   if(!(modelList.includes(search?.vehicleId?.vehicle_model))){
+      //    modelList.push(search?.vehicleId?.vehicle_model)
+      //   }
+      // }
+      // if(modelList.length < 8){
+      //   let removeVehicles = searchList.map((search)=> search?.vehicleId?.toString())
+      //   const allVehicles = await Model.Vehicle.find({_id: {$nin: removeVehicles}});
+      //     for(let search of allVehicles){
+      //   if(!(modelList.includes(search?.vehicle_model))){
+      //    modelList.push(search?.vehicle_model)
+      //   }
+      //   if(modelList.length >= 8){
+      //     break;
+      //   }
+      // }
+      // }
+      return successRes(res, 200, "Search model list", modelList);
+    } catch (err) {
       return errorRes(res, 500, err.message);
     }
-  }
+  },
+   getNotification: async (req, res) => {
+    try {
+      const myNotifications = await Model.Notification.find({
+        user_id: req.user._id,
+      }).sort({ createdAt: -1 });
+      return successRes(res, 200, "Notification Listing", myNotifications);
+    } catch (err) {
+      return errorRes(res, 500, err.message);
+    }
+  },
 };
 
 export default userServices;

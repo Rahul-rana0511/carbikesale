@@ -1,7 +1,7 @@
 import "dotenv/config";
 import * as Model from "../models/index.js";
 import firebase from "firebase-admin";
-import {newBooking, completeBooking, cancelBooking, reScheduleBooking, newMessage} from "./pushNotificationData.js";
+import {newBooking, completeBooking, cancelBooking, vehicleAdded, newMessage} from "./pushNotificationData.js";
 import {serviceAccount} from "../../car_bike_firebase.js";
 firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccount),
@@ -56,8 +56,8 @@ const pushNotification = async ({
           user?.first_name,
         ));
         break;
-      case "mentionUser":
-        ({ title, desc, type } = mentionUser(user?.name));
+      case "vehicleAdded":
+        ({ title, desc, type } = vehicleAdded(user?.first_name));
         break;
       case "connectRequest":
         ({ title, desc, type } = connectRequest(user?.name));

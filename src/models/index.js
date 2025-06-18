@@ -7,6 +7,7 @@ import Chat from "./chats.js";
 import ChatRoom from "./chat.room.js";
 import Block from "./blocks.js";
 import Review from "./reviews.js";
+import Notification from "./notification.js";
 export{
     User,
     Search,
@@ -16,5 +17,6 @@ export{
     Chat,
     ChatRoom,
     Block,
-    Review
+    Review,
+    Notification
 }

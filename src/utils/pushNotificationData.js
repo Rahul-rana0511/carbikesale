@@ -20,11 +20,11 @@ const newBooking = (name, date, time) => {
       desc: `${name} has completed your booking`,
     };
   };
-  const reScheduleBooking = (name, date, time) => {
+  const vehicleAdded = (name, date, time) => {
     return {
-      type: 4,
-      title: `Re-Schedule Booking Alert`,
-      desc: `${name} has re-schedule your booking`,
+       type: 4,
+      title: `New vehicle alert`,
+      desc: `${name} added a new vehcile to sell`,
     };
   };
   const newMessage = (name) => {
@@ -38,7 +38,7 @@ export  {
   newBooking,
     completeBooking,
     cancelBooking,
-    reScheduleBooking,
+    vehicleAdded,
     newMessage
 }
  

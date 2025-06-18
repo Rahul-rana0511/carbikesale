@@ -113,5 +113,8 @@ const userController = {
   popularModelList: async (req, res) => {
     await userServices.popularModelList(req, res);
   },
+  getNotification: async (req, res) => {
+    await userServices.getNotification(req, res);
+  },
 };
 export default userController;

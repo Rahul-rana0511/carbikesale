@@ -42,6 +42,8 @@ router.route("/updateProfile").put(userController.updateProfile);
 router.route("/likeDislikeVehicle").post(userController.likeDislikeVehicle)
 router.route("/shortlistedVehicle").get(userController.shortlistedVehicle)
 router.route("/buyVehicleList").get(userController.buyVehicleList)
+router.route("/getNotification").get(userController.getNotification)
+
 
 //--Chat List
 router.route("/getRoom").get(userController.getRoom);
