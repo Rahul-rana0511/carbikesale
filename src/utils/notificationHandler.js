@@ -129,7 +129,7 @@ const pushNotification = async ({
       };
 
       try {
-        console.log(notification?.data,"data")
+        // console.log(notification?.data,"data")
         const response = await firebase
           .messaging()
           .sendEachForMulticast(notification);
