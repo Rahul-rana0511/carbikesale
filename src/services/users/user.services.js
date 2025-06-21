@@ -53,6 +53,11 @@ const userServices = {
       //     return errorRes(res, 400, "Please enter a valid vehicle number")
       //   }
       // }
+      if(req.user.role == 1){
+        if(!req.user.license_number || req.user.license_number == null){
+          return errorRes(res, 400, "license number is required")
+        }
+      }
       if (req.body.vehicle_price) {
         const price = parseFloat(req.body.vehicle_price);
         let paying_amount = price * 0.02; //Taking 2% for the post

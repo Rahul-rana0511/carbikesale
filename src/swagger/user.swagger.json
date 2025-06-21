@@ -1378,7 +1378,7 @@
             "fuel_type": {
               "type": "number",
               "description": "Enter fuel_type",
-              "example":"0 -> Petrol 1 -> other"
+              "example":"0 -> petrol 1 -> desiel 2 -> electric 3 -> hybrid"
             },
             "transmission": {
               "type": "number",

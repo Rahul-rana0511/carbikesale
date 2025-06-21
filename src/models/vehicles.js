@@ -61,8 +61,8 @@ const vehicleSchema = new Schema(
     fuel_type: {
       type: Number,
       default: null,
-      enum: [0,1],
-      description: "0 -> petrol 1 -> other"
+      enum: [0,1,2,3],
+      description: "0 -> petrol 1 -> desiel 2 -> electric 3 -> hybrid"
     },
     transmission:{
       type: Number,
