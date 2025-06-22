@@ -1117,6 +1117,74 @@ export const cars = [
       "Plaid",
     ],
   },
+  {
+  "company": "Tata Motors",
+  "image": "uploads/tata.png",
+  "models": [
+    "Nexon",
+    "Nexon EV",
+    "Punch",
+    "Harrier",
+    "Safari",
+    "Altroz",
+    "Tiago",
+    "Tigor",
+    "Tigor EV",
+    "Zest",
+    "Bolt",
+    "Indica",
+    "Indigo",
+    "Sumo",
+    "Nano"
+  ]
+},
+{
+  "company": "Mahindra",
+  "image": "uploads/mahindra.png",
+  "models": [
+    "Scorpio",
+    "Scorpio-N",
+    "Scorpio Classic",
+    "Bolero",
+    "Bolero Neo",
+    "XUV300",
+    "XUV400",
+    "XUV500",
+    "XUV700",
+    "Thar",
+    "Marazzo",
+    "KUV100",
+    "Verito",
+    "Verito Vibe",
+    "eVerito",
+    "TUV300",
+    "Supro"
+  ]
+},
+{
+  "company": "Force Motors",
+  "image": "uploads/force.png",
+  "models": [
+    "Gurkha",
+    "Trax Cruiser",
+    "Traveller",
+    "Trump"
+  ]
+},
+{
+  "company": "Ashok Leyland",
+  "image": "uploads/ashokleyland.png",
+  "models": [
+    "Dost",
+    "Bada Dost",
+    "Partner",
+    "Boss",
+    "Captain",
+    "Ecomet",
+    "Stile",
+    "AVTR"
+  ]
+}
 ];
 
 export const indianRegions = [
@@ -1816,4 +1884,40 @@ export const bikes = [
     image: "uploads/emflux.png",
     models: ["Emflux One", "Emflux Two"],
   },
+  {
+  "company": "Mahindra Two Wheelers",
+  "image": "uploads/mahindra_bike.png",
+  "models": [
+    "Centuro",
+    "Gusto",
+    "Rodeo",
+    "Duro",
+    "Pantero",
+    "Flyte"
+  ]
+},
+{
+  "company": "Kinetic Engineering",
+  "image": "uploads/kinetic.png",
+  "models": [
+    "Kinetic Honda",
+    "Kinetic Nova",
+    "Kinetic Zoom",
+    "Kinetic Velocity",
+    "Kinetic Zing"
+  ]
+},
+{
+  "company": "LML",
+  "image": "uploads/lml.png",
+  "models": [
+    "LML Freedom",
+    "LML NV",
+    "LML Star",
+    "LML Adreno",
+    "LML Select",
+    "LML Vespa"
+  ]
+}
+
 ];
