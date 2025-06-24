@@ -59,10 +59,30 @@ const userServices = {
         }
       }
       if (req.body.vehicle_price) {
-        const price = parseFloat(req.body.vehicle_price);
-        let paying_amount = price * 0.02; //Taking 2% for the post
+        let price = 0;
+        let vehicle_price = parseInt(req.body.vehicle_price);
+        if(req.body.vehicle_type == 1){
+          if(vehicle_price> 0 && vehicle_price <=50000){
+            price = 5
+          }else if(vehicle_price> 50000 && vehicle_price <=100000){
+           price = 10
+          }else if(vehicle_price > 100000){
+            price = 15
+          }
+        }else{
+           if(vehicle_price> 0 && vehicle_price <=200000){
+            price = 10
+          }else if(vehicle_price> 200000 && vehicle_price <=500000){
+           price = 20
+          }else if(vehicle_price > 500000 && vehicle_price <=1000000){
+            price = 30
+          }else if(vehicle_price > 1000000){
+            price = 50
+          }
+        }
+        let paying_amount = price;
         let discount =
-          req.user.role == 1 ? paying_amount * 0.1 : paying_amount * 0.05;
+          req.user.role == 1 ? paying_amount * 0.1 : 0;
         req.body.post_paymnet = paying_amount;
         req.body.total_payment = paying_amount - discount;
         req.body.discount = discount;
