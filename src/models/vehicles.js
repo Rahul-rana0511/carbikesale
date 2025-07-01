@@ -158,6 +158,10 @@ const vehicleSchema = new Schema(
       type: String,
       default: null
     },
+    payment_id:{
+      type: String,
+      default: null
+    },
     vehicle_number:{
       type: String,
       default: null

@@ -505,6 +505,82 @@
           ]
         }
       },
+      "/api/user/createPaymentIntent": {
+        "post": {
+          "tags": [
+            "Sell"
+          ],
+          "summary": " create payment Api",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/createPaymentIntent"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful Operation"
+            },
+            "400": {
+              "description": "Bad request - Invalid input, validation error"
+            },
+            "401": {
+              "description": "Unauthorized - Authentication failure"
+            },
+            "500": {
+              "description": "Internal server error - Something went wrong on the server side"
+            }
+          },
+          "security": [
+            {
+              "access_token": [
+                "access_token"
+              ]
+            }
+          ]
+        }
+      },
+      "/api/user/verifyPayment": {
+        "post": {
+          "tags": [
+            "Sell"
+          ],
+          "summary": " verify payment Api",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/verifyPayment"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful Operation"
+            },
+            "400": {
+              "description": "Bad request - Invalid input, validation error"
+            },
+            "401": {
+              "description": "Unauthorized - Authentication failure"
+            },
+            "500": {
+              "description": "Internal server error - Something went wrong on the server side"
+            }
+          },
+          "security": [
+            {
+              "access_token": [
+                "access_token"
+              ]
+            }
+          ]
+        }
+      },
       "/api/user/getvehicleDetails/{vehicleId}": {
         "get": {
           "tags": [
@@ -1660,6 +1736,32 @@
             "vehicleId": {
               "type": "string",
               "description": "Enter vehicleId"
+            }
+          }
+        },
+        "createPaymentIntent": {
+          "type": "object",
+          "properties": {
+            "amount": {
+              "type": "number",
+              "description": "Enter price"
+            }
+          }
+        },
+         "verifyPayment": {
+          "type": "object",
+          "properties": {
+            "razorpay_order_id": {
+              "type": "string",
+              "description": "Enter razorpay_order_id"
+            },
+            "razorpay_payment_id": {
+              "type": "string",
+              "description": "Enter razorpay_payment_id"
+            },
+            "razorpay_signature": {
+              "type": "string",
+              "description": "Enter razorpay_signature"
             }
           }
         },

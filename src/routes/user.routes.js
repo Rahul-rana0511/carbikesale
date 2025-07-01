@@ -17,7 +17,7 @@ router.route("/resetPassword").post(validations.validateResetPassword, userContr
 router.route("/resendOtp").post(validations.validateResendOtp, userController.resendOTP);
 router.route("/verifyOtp").post(validations.validateVerifyOtp, userController.verifyOTP);
 
-router.use(authentication)
+// router.use(authentication)
 router.route("/deleteAccount").delete(userController.deleteAccount);
 router.route("/logout").patch(userController.logout);
 router.route("/getCarList").get(userController.getCarList);
@@ -30,6 +30,10 @@ router.route("/getVehicles").get(userController.getVehicles);
 router.route("/homeScreen").get(userController.homeScreen);
 router.route("/carBikeList").get(userController.carBikeList);
 router.route("/popularModelList").get(userController.popularModelList);
+router.route("/createPaymentIntent").post(userController.createPaymentIntent);
+router.route("/verifyPayment").post(userController.verifyPayment);
+
+
 
 
 

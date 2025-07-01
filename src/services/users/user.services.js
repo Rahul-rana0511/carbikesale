@@ -5,7 +5,7 @@ import { errorRes, successRes } from "../../utils/response.js";
 import Razorpay from "razorpay";
 import "dotenv/config";
 import pushNotification from "../../utils/notificationHandler.js";
-
+import crypto from "crypto";
 const userServices = {
   getProfile: async (req, res) => {
     try {
@@ -478,44 +478,48 @@ const userServices = {
       return errorRes(res, 500, err.message);
     }
   },
-  // createPaymentIntent: async(req,res)=>{
-  //   try{
-  //     const { amount, currency = 'INR', receipt } = req.body;
-  // const razorpay = new Razorpay({
-  //   key_id: process.env.RAZORPAY_KEY_ID,
-  //   key_secret: process.env.RAZORPAY_KEY_SECRET,
-  // });
+  createPaymentIntent: async(req,res)=>{
+    try{
+      const { amount, currency = 'INR', receipt = `receipt_${Date.now()}`} = req.body;
+  const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+  });
 
-  //     const options = {
-  //       amount: amount * 100, // amount in the smallest currency unit
-  //       currency,
-  //       receipt,
-  //     };
+      const options = {
+        amount: amount * 100, // amount in the smallest currency unit
+        currency,
+        receipt,
+      };
 
-  //     const order = await razorpay.orders.create(options);
-  //     return successRes(res, 200, "Payment successful", order)
-  //   }catch (err) {
-  //       return errorRes(res, 500, err.message);
-  //     }
-  // },
-  // verifyPayment: async(req,res)=>{
-  //   try{
-  //   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+      const order = await razorpay.orders.create(options);
+      return successRes(res, 200, "Payment successful", order)
+    }catch (err) {
+        return errorRes(res, 500, err.message);
+      }
+  },
+  verifyPayment: async(req,res)=>{
+    try{
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
-  //   const generated_signature = crypto
-  //     .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
-  //     .update(`${razorpay_order_id}|${razorpay_payment_id}`)
-  //     .digest('hex');
+    const generated_signature = crypto
+      .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
+      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+      .digest('hex');
 
-  //   if (generated_signature === razorpay_signature) {
-  //     return successRes(res, 200, "Payment verified successfully")
-  //   } else {
-  //     return errorRes(res, 400, "Payment verification failed");
-  //   }
-  //   }catch (err) {
-  //       return errorRes(res, 500, err.message);
-  //     }
-  // }
+    if (generated_signature === razorpay_signature) {
+      const lastOrder = await Model.Vehicle.findOne({userId: req.user._id}).sort({createdAt: -1});
+      lastOrder.is_payment_done = 1;
+       lastOrder.payment_id = razorpay_payment_id; 
+      await lastOrder.save();
+      return successRes(res, 200, "Payment verified successfully")
+    } else {
+      return errorRes(res, 400, "Payment verification failed");
+    }
+    }catch (err) {
+        return errorRes(res, 500, err.message);
+      }
+  },
   addReviews: async (req, res) => {
     try {
       const isReveiwExists = await Model.Review.findOne({

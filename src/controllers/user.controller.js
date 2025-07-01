@@ -113,6 +113,12 @@ const userController = {
   popularModelList: async (req, res) => {
     await userServices.popularModelList(req, res);
   },
+  createPaymentIntent: async (req, res) => {
+    await userServices.createPaymentIntent(req, res);
+  },
+  verifyPayment: async (req, res) => {
+    await userServices.verifyPayment(req, res);
+  },
   getNotification: async (req, res) => {
     await userServices.getNotification(req, res);
   },
