@@ -493,6 +493,7 @@ const userServices = {
       };
 
       const order = await razorpay.orders.create(options);
+      order.RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID;
       return successRes(res, 200, "Payment successful", order)
     }catch (err) {
         return errorRes(res, 500, err.message);
