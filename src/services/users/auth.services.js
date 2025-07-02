@@ -290,14 +290,17 @@ if(phone_number == "0987654322" && country_code == "+91"){
   },
   dropTables: async (req, res) => {
     try {
-      // await Model.Vehicle.deleteMany({});
+      await Model.Vehicle.deleteMany({});
       // await Model.User.deleteMany({ role: 0 });
-      // await Model.Search.deleteMany({});
-      // await Model.Likevehicle.deleteMany({});
+      await Model.Search.deleteMany({});
+      await Model.Likevehicle.deleteMany({});
       // const users = await Model.User.find({});
       await Model.Chat.deleteMany({});
       await Model.ChatRoom.deleteMany({});
       await Model.readUnread.deleteMany({});
+      await Model.Block.deleteMany({});
+      await Model.Notification.deleteMany({});
+      await Model.Review.deleteMany({});
       return successRes(res, 200, "Deleted");
     } catch (error) {
       return errorRes(res, 500, err.message);
