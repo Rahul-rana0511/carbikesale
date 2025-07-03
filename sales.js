@@ -34,7 +34,7 @@ app.set('view engine', 'ejs');
 app.set('views', './views'); // make sure your .ejs file is in this folder
 app.get('/support', (req, res) => {
   res.render('support', {
-    supportEmail: 'help@yourapp.com'
+    supportEmail: 'gs.carbikehub@gmail.com'
   });
 });
 app.get('/privacy', (req, res) => {
