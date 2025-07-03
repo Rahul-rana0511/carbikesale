@@ -30,6 +30,20 @@ connectDB();
 // ✅ Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.set('view engine', 'ejs');
+app.set('views', './views'); // make sure your .ejs file is in this folder
+app.get('/support', (req, res) => {
+  res.render('support', {
+    supportEmail: 'help@yourapp.com'
+  });
+});
+app.get('/privacy', (req, res) => {
+  res.render('privacy', {
+    appName: 'Car & Bike Hub',
+    updatedDate: 'July 3, 2025'
+  });
+});
+
 app.use("/public", express.static("public"));
 app.use("/uploads", express.static("uploads"));
 app.use(morgan('dev'));
