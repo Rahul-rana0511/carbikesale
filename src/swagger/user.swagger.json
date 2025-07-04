@@ -135,7 +135,28 @@
           }
         }
       },
-      
+      "/api/user/loginAsAGuest": {
+        "post": {
+          "tags": [
+            "Authentication"
+          ],
+          "summary": "login as a guest Api",
+          "responses": {
+            "200": {
+              "description": "Successful Operation"
+            },
+            "400": {
+              "description": "Bad request - Invalid input, validation error"
+            },
+            "401": {
+              "description": "Unauthorized - Authentication failure"
+            },
+            "500": {
+              "description": "Internal server error - Something went wrong on the server side"
+            }
+          }
+        }
+      },
       "/api/user/forgetpassword": {
         "post": {
           "tags": [

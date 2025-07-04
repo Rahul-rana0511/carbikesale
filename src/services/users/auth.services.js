@@ -33,7 +33,7 @@ const authServices = {
       // Hash password
       const hashPassword = await bcrypt.hash(password, 10);
       let otp = Math.floor(1000 + Math.random() * 9000);
-if(phone_number == "0987654322" && country_code == "+91"){
+      if (phone_number == "0987654322" && country_code == "+91") {
         otp = 1234;
       }
       // Create new user
@@ -49,6 +49,32 @@ if(phone_number == "0987654322" && country_code == "+91"){
         "OTP has been sent to your provided phone number",
         newUser
       );
+    } catch (err) {
+      return errorRes(res, 500, err.message);
+    }
+  },
+  loginAsAGuest: async (req, res) => {
+    try {
+      let data;
+      const user = await Model.User.findOne({
+        role: 2,
+      }).lean();
+      if (user) {
+        const token = JWT.sign({ userId: user._id }, JWT_SECRET_KEY, {
+          expiresIn: "30d",
+        });
+        user.token = token;
+        data = user;
+      } else {
+        const newUser = await Model.User.create({ role: 2 });
+        const token = JWT.sign({ userId: newUser._id }, JWT_SECRET_KEY, {
+          expiresIn: "30d",
+        });
+        const responseObj = newUser.toObject();
+        responseObj.token = token;
+        data = responseObj;
+      }
+      return successRes(res, 200, "User successfully login", data);
     } catch (err) {
       return errorRes(res, 500, err.message);
     }
@@ -79,7 +105,7 @@ if(phone_number == "0987654322" && country_code == "+91"){
       }
 
       let otp = Math.floor(1000 + Math.random() * 9000);
-      if(phone_number == "0987654322" && country_code == "+91"){
+      if (phone_number == "0987654322" && country_code == "+91") {
         otp = 1234;
       }
       // Check if the user is verified and active

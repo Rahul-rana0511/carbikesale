@@ -11,6 +11,9 @@ const userController = {
   register: async (req, res) => {
     await authServices.registerUser(req, res);
   },
+  loginAsAGuest: async (req, res) => {
+    await authServices.loginAsAGuest(req, res);
+  },
   login: async (req, res) => {
     await authServices.login(req, res);
   },
