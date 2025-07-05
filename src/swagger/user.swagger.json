@@ -1255,7 +1255,45 @@
           }
         ]
       }
-    }
+    },
+    "/api/user/updateNotification": {
+        "put": {
+          "tags": [
+            "Setting"
+          ],
+          "summary": " Update notification Api",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/updateNotification"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful Operation"
+            },
+            "400": {
+              "description": "Bad request - Invalid input, validation error"
+            },
+            "401": {
+              "description": "Unauthorized - Authentication failure"
+            },
+            "500": {
+              "description": "Internal server error - Something went wrong on the server side"
+            }
+          },
+          "security": [
+            {
+              "access_token": [
+                "access_token"
+              ]
+            }
+          ]
+        }
+      }
     },
     "components": {
       "schemas": {
@@ -1266,6 +1304,15 @@
               "type": "string",
               "description": "upload image",
               "format": "binary"
+            }
+          }
+        },
+        "updateNotification": {
+          "type": "object",
+          "properties": {
+            "device_token": {
+              "type": "string",
+              "description": "Enter device token"
             }
           }
         },

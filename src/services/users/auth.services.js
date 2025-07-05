@@ -36,6 +36,11 @@ const authServices = {
       if (phone_number == "0987654322" && country_code == "+91") {
         otp = 1234;
       }
+      if(device_token && device_token != ""){
+        req.body.is_enable_notification = 1;
+       }else{
+        req.body.is_enable_notification = 0;
+       }
       // Create new user
       const newUser = await Model.User.create({
         ...req.body,
@@ -142,7 +147,11 @@ const authServices = {
       const token = JWT.sign({ userId: user._id }, JWT_SECRET_KEY, {
         expiresIn: "30d",
       });
-
+       if(device_token && device_token != ""){
+        user.is_enable_notification = 1;
+       }else{
+        user.is_enable_notification = 0;
+       }
       // Update device information
       user.device_token = device_token;
       user.device_model = device_model;

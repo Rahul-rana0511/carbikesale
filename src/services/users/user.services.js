@@ -653,6 +653,27 @@ const userServices = {
       return errorRes(res, 500, err.message);
     }
   },
+  updateNotification: async (req, res) => {
+    try {
+      const notification_toggle = req.user.is_enable_notification == 1 ? 0 : 1;
+      const updateData = await Model.User.findByIdAndUpdate(
+        req.user._id,
+        { $set: { ...req.body , is_enable_notification : notification_toggle} },
+        { new: true }
+      );
+      if (!updateData) {
+        return errorRes(res, 404, "User not found");
+      }
+      return successRes(
+        res,
+        200,
+        "Notification settings updated successfully",
+        updateData
+      );
+    } catch (err) {
+      return errorRes(res, 500, err.message);
+    }
+  },
 };
 
 export default userServices;

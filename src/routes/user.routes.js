@@ -48,6 +48,7 @@ router.route("/likeDislikeVehicle").post(authorization, userController.likeDisli
 router.route("/shortlistedVehicle").get(authorization, userController.shortlistedVehicle)
 router.route("/buyVehicleList").get(authorization, userController.buyVehicleList)
 router.route("/getNotification").get(authorization, userController.getNotification)
+router.route("/updateNotification").put(authorization, userController.updateNotification)
 
 
 //--Chat List

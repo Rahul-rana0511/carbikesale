@@ -125,5 +125,8 @@ const userController = {
   getNotification: async (req, res) => {
     await userServices.getNotification(req, res);
   },
+  updateNotification: async (req, res) => {
+    await userServices.updateNotification(req, res);
+  },
 };
 export default userController;
