@@ -1173,7 +1173,7 @@ export const cars = [
 },
 {
   "company": "Ashok Leyland",
-  "image": "uploads/ashokleyland.png",
+  "image": "uploads/ashok.png",
   "models": [
     "Dost",
     "Bada Dost",
@@ -1886,7 +1886,7 @@ export const bikes = [
   },
   {
   "company": "Mahindra Two Wheelers",
-  "image": "uploads/mahindra_bike.png",
+  "image": "uploads/mahindra.png",
   "models": [
     "Centuro",
     "Gusto",
