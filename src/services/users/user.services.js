@@ -91,15 +91,15 @@ const userServices = {
         ...req.body,
         userId: req.user._id,
       });
-      const users = await Model.User.find({ _id: { $ne: req.user._id } });
-      for (let user of users) {
-        await pushNotification({
-          user_id: user?._id,
-          other_user: req.user._id,
-          type: "vehicleAdded",
-          misc: { redirectId: addData?._id },
-        });
-      }
+      // const users = await Model.User.find({ _id: { $ne: req.user._id } });
+      // for (let user of users) {
+      //   await pushNotification({
+      //     user_id: user?._id,
+      //     other_user: req.user._id,
+      //     type: "vehicleAdded",
+      //     misc: { redirectId: addData?._id },
+      //   });
+      // }
       return successRes(res, 200, "Vehicle added successfully", addData);
     } catch (err) {
       return errorRes(res, 500, err.message);
@@ -513,6 +513,15 @@ const userServices = {
       lastOrder.is_payment_done = 1;
        lastOrder.payment_id = razorpay_payment_id; 
       await lastOrder.save();
+        const users = await Model.User.find({ _id: { $ne: req.user._id } });
+      for (let user of users) {
+        await pushNotification({
+          user_id: user?._id,
+          other_user: req.user._id,
+          type: "vehicleAdded",
+          misc: { redirectId: lastOrder?._id },
+        });
+      }
       return successRes(res, 200, "Payment verified successfully")
     } else {
       return errorRes(res, 400, "Payment verification failed");
@@ -555,6 +564,7 @@ const userServices = {
     try {
       const vehicleList = await Model.Vehicle.find({
         userId: req.user._id,
+        is_payment_done : 1
       }).sort({ createdAt: -1 });
 
       return successRes(res, 200, "Review added successfully", vehicleList);
