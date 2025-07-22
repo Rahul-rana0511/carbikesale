@@ -6,6 +6,7 @@ import {serviceAccount} from "../../car_bike_firebase.js";
 firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccount),
 });
+
 const buildDataPayload = (
   user,
   title,
