@@ -20,7 +20,7 @@ const authServices = {
 
   registerUser: async (req, res) => {
     try {
-      const { phone_number, country_code, password } = req.body;
+      const { phone_number, country_code, password, device_token } = req.body;
       const isNumberExists = await Model.User.findOne({
         phone_number: phone_number,
         country_code: country_code,
