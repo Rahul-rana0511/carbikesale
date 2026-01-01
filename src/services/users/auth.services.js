@@ -3,6 +3,8 @@ import { errorRes, successRes } from "../../utils/response.js";
 import bcrypt from "bcrypt";
 import JWT from "jsonwebtoken";
 import "dotenv/config";
+import sendEmailOtp from "../../utils/sendEmailOtp.js";
+
 const JWT_SECRET_KEY = process.env.JWT_SECRET;
 
 const authServices = {
@@ -20,27 +22,29 @@ const authServices = {
 
   registerUser: async (req, res) => {
     try {
-      const { phone_number, country_code, password, device_token } = req.body;
+      const { email, phone_number, country_code, password, device_token } = req.body;
+      if (!email) {
+      return errorRes(res, 400, "Email is required");
+    }
       const isNumberExists = await Model.User.findOne({
-        phone_number: phone_number,
-        country_code: country_code,
+        email: email.trim().toLowerCase(),
       });
       if (isNumberExists) {
-        if (isNumberExists.phone_verified) {
-          return errorRes(res, 400, "Phone number already exists");
+        if (isNumberExists.email_verified) {
+          return errorRes(res, 400, "Email already exists");
         }
       }
       // Hash password
       const hashPassword = await bcrypt.hash(password, 10);
       let otp = Math.floor(1000 + Math.random() * 9000);
-      if (phone_number == "0987654322" && country_code == "+91") {
-        otp = 1234;
-      }
-      if(device_token && device_token != ""){
+      // if (phone_number == "0987654322" && country_code == "+91") {
+      //   otp = 1234;
+      // }
+      if (device_token && device_token != "") {
         req.body.is_enable_notification = 1;
-       }else{
+      } else {
         req.body.is_enable_notification = 0;
-       }
+      }
       // Create new user
       const newUser = await Model.User.create({
         ...req.body,
@@ -87,16 +91,19 @@ const authServices = {
   login: async (req, res) => {
     try {
       const {
-        phone_number,
-        country_code,
+        // phone_number,
+        // country_code,
+        email,
         password,
         device_token,
         device_type,
         device_model,
       } = req.body;
+      if (!email) {
+        return errorRes(res, 400, "Email is required");
+      }
       const user = await Model.User.findOne({
-        phone_number: phone_number,
-        country_code: country_code,
+        email: email.trim().toLowerCase(),
       });
       if (!user) {
         return errorRes(res, 404, "User doesn't exists");
@@ -110,24 +117,18 @@ const authServices = {
       }
 
       let otp = Math.floor(1000 + Math.random() * 9000);
-      if (phone_number == "0987654322" && country_code == "+91") {
-        otp = 1234;
-      }
+      // if (phone_number == "0987654322" && country_code == "+91") {
+      //   otp = 1234;
+      // }
       // Check if the user is verified and active
-      if (!user.phone_verified) {
+      if (!user.email_verified) {
         user.otp = otp;
         await user.save();
-        // sendEmail({
-        //   otp: otp,
-        //   email: user.email,
-        //   project_name: process.env.PROJECT_NAME,
-        //   type: "register",
-        //   user: user,
-        // });
+        await sendEmailOtp(email, otp);
         return successRes(
           res,
           200,
-          "OTP has been sent to your provided phone number",
+          "OTP has been sent to your provided email",
           user
         );
       }
@@ -147,11 +148,11 @@ const authServices = {
       const token = JWT.sign({ userId: user._id }, JWT_SECRET_KEY, {
         expiresIn: "30d",
       });
-       if(device_token && device_token != ""){
+      if (device_token && device_token != "") {
         user.is_enable_notification = 1;
-       }else{
+      } else {
         user.is_enable_notification = 0;
-       }
+      }
       // Update device information
       user.device_token = device_token;
       user.device_model = device_model;
@@ -171,21 +172,18 @@ const authServices = {
   },
   forgetpassword: async (req, res) => {
     try {
-      const { phone_number, country_code } = req.body;
-      const user = await Model.User.findOne({ phone_number, country_code });
+      const { email } = req.body;
+      if (!email) {
+      return errorRes(res, 400, "Email is required");
+    }
+      const user = await Model.User.findOne({ email: email.trim().toLowerCase() });
       if (!user) {
         return errorRes(res, 404, "User Not Found");
       }
       const otp = Math.floor(1000 + Math.random() * 9000);
       user.otp = otp;
       const updateData = await user.save();
-      // sendEmail({
-      //   otp: user.email_otp,
-      //   email: user.email,
-      //   project_name: process.env.PROJECT_NAME,
-      //   type: "forgotPassword",
-      //   user: user,
-      // });
+          await sendEmailOtp(email, otp);
       return successRes(
         res,
         200,
@@ -237,6 +235,8 @@ const authServices = {
         { $set: { otp: otp } },
         { new: true }
       );
+          await sendEmailOtp(user.email, otp);
+
       // sendEmail({
       //   otp: otp,
       //   email: user.email,
@@ -263,7 +263,7 @@ const authServices = {
         return errorRes(res, 404, "User not found");
       }
       if (otp == user.otp) {
-        user.phone_verified = 1;
+        user.email_verified = 1;
         user.otp = null;
         const token = JWT.sign({ userId: user._id }, JWT_SECRET_KEY, {
           expiresIn: "30d",
@@ -277,7 +277,7 @@ const authServices = {
         return successRes(
           res,
           200,
-          "Phone number verified successfully.",
+          "Email verified successfully.",
           response
         );
       } else {

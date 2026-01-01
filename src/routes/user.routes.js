@@ -10,12 +10,12 @@ const router = Router();
 
 router.route("/dropTables").post(userController.dropTables);
 router.route("/uploadImage").post(uploadMiddleware, userController.uploadImages);
-router.route("/register").post(validations.validateRegister, userController.register);
-router.route("/login").post(validations.validateLogin, userController.login);
+router.route("/register").post(userController.register);
+router.route("/login").post(userController.login);
 router.route("/loginAsAGuest").post(userController.loginAsAGuest);
-router.route("/forgetpassword").post(validations.validateForgotpassword, userController.forgetpassword);
-router.route("/resetPassword").post(validations.validateResetPassword, userController.resetPassword);
-router.route("/resendOtp").post(validations.validateResendOtp, userController.resendOTP);
+router.route("/forgetpassword").post( userController.forgetpassword);
+router.route("/resetPassword").post( userController.resetPassword);
+router.route("/resendOtp").post( userController.resendOTP);
 router.route("/verifyOtp").post(validations.validateVerifyOtp, userController.verifyOTP);
 
 router.use(authentication)
