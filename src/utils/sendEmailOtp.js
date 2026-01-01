@@ -5,10 +5,10 @@ const sendEmailOtp = async (email, otp) => {
     const mailOptions = {
       from: process.env.EMAIL_FROM,
       to: email,
-      subject: "Your MG Fresh OTP",
+      subject: "Your Car & Bike Hub OTP",
       html: `
         <div style="font-family: Arial, sans-serif;">
-          <h2>MG Fresh</h2>
+          <h2>Car & Bike Hub</h2>
           <p>Hi user, Your One Time Password is:</p>
           <h1 style="letter-spacing: 2px;">${otp}</h1>
           <p>This OTP is valid for <b>10 minutes</b>.</p>

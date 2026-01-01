@@ -51,6 +51,8 @@ const authServices = {
         password: hashPassword,
         otp,
       });
+          await sendEmailOtp(email, otp);
+
 
       return successRes(
         res,
