@@ -8,6 +8,7 @@ import ChatRoom from "./chat.room.js";
 import Block from "./blocks.js";
 import Review from "./reviews.js";
 import Notification from "./notification.js";
+import Promocode from "./promocode.js";
 export{
     User,
     Search,
@@ -18,5 +19,6 @@ export{
     ChatRoom,
     Block,
     Review,
-    Notification
+    Notification,
+    Promocode
 }

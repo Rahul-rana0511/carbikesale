@@ -7,6 +7,16 @@ import "dotenv/config";
 import pushNotification from "../../utils/notificationHandler.js";
 import crypto from "crypto";
 const userServices = {
+  addPromocode: async (req, res) => {
+    try {
+      const addData = await Model.Promocode.create({
+        ...req.body,
+      });
+      return successRes(res, 200, "Promo code added successfully", addData);
+    } catch (err) {
+      return errorRes(res, 500, err.message);
+    }
+  },
   getProfile: async (req, res) => {
     try {
       const getData = await Model.User.findById(req.user._id);
@@ -53,36 +63,62 @@ const userServices = {
       //     return errorRes(res, 400, "Please enter a valid vehicle number")
       //   }
       // }
-      if(req.user.role == 1){
-        if(!req.user.license_number || req.user.license_number == null){
-          return errorRes(res, 400, "license number is required")
+      if (req.user.role == 1) {
+        if (!req.user.license_number || req.user.license_number == null) {
+          return errorRes(res, 400, "license number is required");
         }
       }
       if (req.body.vehicle_price) {
         let price = 0;
         let vehicle_price = parseInt(req.body.vehicle_price);
-        if(req.body.vehicle_type == 1){
-          if(vehicle_price> 0 && vehicle_price <=50000){
-            price = 5
-          }else if(vehicle_price> 50000 && vehicle_price <=100000){
-           price = 10
-          }else if(vehicle_price > 100000){
-            price = 15
+        if (req.body.vehicle_type == 1) {
+          if (vehicle_price > 0 && vehicle_price <= 50000) {
+            price = 5;
+          } else if (vehicle_price > 50000 && vehicle_price <= 100000) {
+            price = 10;
+          } else if (vehicle_price > 100000) {
+            price = 15;
           }
-        }else{
-           if(vehicle_price> 0 && vehicle_price <=200000){
-            price = 10
-          }else if(vehicle_price> 200000 && vehicle_price <=500000){
-           price = 20
-          }else if(vehicle_price > 500000 && vehicle_price <=1000000){
-            price = 30
-          }else if(vehicle_price > 1000000){
-            price = 50
+        } else {
+          if (vehicle_price > 0 && vehicle_price <= 200000) {
+            price = 10;
+          } else if (vehicle_price > 200000 && vehicle_price <= 500000) {
+            price = 20;
+          } else if (vehicle_price > 500000 && vehicle_price <= 1000000) {
+            price = 30;
+          } else if (vehicle_price > 1000000) {
+            price = 50;
           }
         }
+        if (req.body.promo_code) {
+          const promoDetails = await Model.Promocode.findOne({
+            code: req.body.promo_code
+          });
+
+          if (!promoDetails) {
+            return errorRes(res, 404, "Promo code not found or expired");
+          }
+
+          const alreadyUsed = promoDetails.usedBy?.map((user) =>
+            user.toString()
+          );
+
+          if (alreadyUsed?.includes(req.user._id.toString())) {
+            return errorRes(res, 400, "You already used this promo code");
+          }
+
+          // ✅ Correct discount calculation
+          const promoDiscount = (price * promoDetails.value) / 100;
+          price = price - promoDiscount;
+
+          // ✅ Mark promo as used
+          await Model.Promocode.updateOne(
+            { _id: promoDetails._id },
+            { $push: { usedBy: req.user._id } }
+          );
+        }
         let paying_amount = price;
-        let discount =
-          req.user.role == 1 ? paying_amount * 0.1 : 0;
+        let discount = req.user.role == 1 ? paying_amount * 0.1 : 0;
         req.body.post_paymnet = paying_amount;
         req.body.total_payment = paying_amount - discount;
         req.body.discount = discount;
@@ -478,13 +514,17 @@ const userServices = {
       return errorRes(res, 500, err.message);
     }
   },
-  createPaymentIntent: async(req,res)=>{
-    try{
-      const { amount, currency = 'INR', receipt = `receipt_${Date.now()}`} = req.body;
-  const razorpay = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID,
-    key_secret: process.env.RAZORPAY_KEY_SECRET,
-  });
+  createPaymentIntent: async (req, res) => {
+    try {
+      const {
+        amount,
+        currency = "INR",
+        receipt = `receipt_${Date.now()}`,
+      } = req.body;
+      const razorpay = new Razorpay({
+        key_id: process.env.RAZORPAY_KEY_ID,
+        key_secret: process.env.RAZORPAY_KEY_SECRET,
+      });
 
       const options = {
         amount: amount * 100, // amount in the smallest currency unit
@@ -494,41 +534,44 @@ const userServices = {
 
       const order = await razorpay.orders.create(options);
       order.RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID;
-      return successRes(res, 200, "Payment successful", order)
-    }catch (err) {
-        return errorRes(res, 500, err.message);
-      }
-  },
-  verifyPayment: async(req,res)=>{
-    try{
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
-
-    const generated_signature = crypto
-      .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
-      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
-      .digest('hex');
-
-    if (generated_signature === razorpay_signature) {
-      const lastOrder = await Model.Vehicle.findOne({userId: req.user._id}).sort({createdAt: -1});
-      lastOrder.is_payment_done = 1;
-       lastOrder.payment_id = razorpay_payment_id; 
-      await lastOrder.save();
-        const users = await Model.User.find({ _id: { $ne: req.user._id } });
-      for (let user of users) {
-        await pushNotification({
-          user_id: user?._id,
-          other_user: req.user._id,
-          type: "vehicleAdded",
-          misc: { redirectId: lastOrder?._id },
-        });
-      }
-      return successRes(res, 200, "Payment verified successfully")
-    } else {
-      return errorRes(res, 400, "Payment verification failed");
+      return successRes(res, 200, "Payment successful", order);
+    } catch (err) {
+      return errorRes(res, 500, err.message);
     }
-    }catch (err) {
-        return errorRes(res, 500, err.message);
+  },
+  verifyPayment: async (req, res) => {
+    try {
+      const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+        req.body;
+
+      const generated_signature = crypto
+        .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+        .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+        .digest("hex");
+
+      if (generated_signature === razorpay_signature) {
+        const lastOrder = await Model.Vehicle.findOne({
+          userId: req.user._id,
+        }).sort({ createdAt: -1 });
+        lastOrder.is_payment_done = 1;
+        lastOrder.payment_id = razorpay_payment_id;
+        await lastOrder.save();
+        const users = await Model.User.find({ _id: { $ne: req.user._id } });
+        for (let user of users) {
+          await pushNotification({
+            user_id: user?._id,
+            other_user: req.user._id,
+            type: "vehicleAdded",
+            misc: { redirectId: lastOrder?._id },
+          });
+        }
+        return successRes(res, 200, "Payment verified successfully");
+      } else {
+        return errorRes(res, 400, "Payment verification failed");
       }
+    } catch (err) {
+      return errorRes(res, 500, err.message);
+    }
   },
   addReviews: async (req, res) => {
     try {
@@ -564,7 +607,7 @@ const userServices = {
     try {
       const vehicleList = await Model.Vehicle.find({
         userId: req.user._id,
-        is_payment_done : 1
+        is_payment_done: 1,
       }).sort({ createdAt: -1 });
 
       return successRes(res, 200, "Review added successfully", vehicleList);
@@ -653,7 +696,7 @@ const userServices = {
       return errorRes(res, 500, err.message);
     }
   },
-   getNotification: async (req, res) => {
+  getNotification: async (req, res) => {
     try {
       const myNotifications = await Model.Notification.find({
         user_id: req.user._id,
@@ -668,7 +711,7 @@ const userServices = {
       const notification_toggle = req.user.is_enable_notification == 1 ? 0 : 1;
       const updateData = await Model.User.findByIdAndUpdate(
         req.user._id,
-        { $set: { ...req.body , is_enable_notification : notification_toggle} },
+        { $set: { ...req.body, is_enable_notification: notification_toggle } },
         { new: true }
       );
       if (!updateData) {
