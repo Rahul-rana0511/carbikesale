@@ -2,6 +2,9 @@ import authServices from "../services/users/auth.services.js";
 import userServices from "../services/users/user.services.js";
 import { chatService } from "../services/users/chat.services.js";
 const userController = {
+  addPromocode: async (req, res) => {
+    await userServices.addPromocode(req, res);
+  },
   dropTables: async (req, res) => {
     await authServices.dropTables(req, res);
   },

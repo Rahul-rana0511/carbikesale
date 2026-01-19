@@ -7,7 +7,7 @@ import { validations } from "../validations/validations.js";
 import authorization from "../middlewares/authorization.js";
 
 const router = Router();
-router.route("/dropTables").post(userController.dropTables);
+router.route("/addPromocode").post(userController.addPromocode);
 
 router.route("/dropTables").post(userController.dropTables);
 router.route("/uploadImage").post(uploadMiddleware, userController.uploadImages);
