@@ -33,7 +33,7 @@ const userServices = {
       const updateData = await Model.User.findByIdAndUpdate(
         req.user._id,
         { $set: { ...req.body } },
-        { new: true }
+        { new: true },
       );
       if (!updateData) {
         return errorRes(res, 404, "User not found");
@@ -42,7 +42,7 @@ const userServices = {
         res,
         200,
         "User profile updated successfully",
-        updateData
+        updateData,
       );
     } catch (err) {
       return errorRes(res, 500, err.message);
@@ -70,6 +70,8 @@ const userServices = {
       }
       if (req.body.vehicle_price) {
         let price = 0;
+        let discount = 0;
+        let paying_amount = 0;
         let vehicle_price = parseInt(req.body.vehicle_price);
         if (req.body.vehicle_type == 1) {
           if (vehicle_price > 0 && vehicle_price <= 50000) {
@@ -90,9 +92,11 @@ const userServices = {
             price = 50;
           }
         }
+
+        paying_amount = price;
         if (req.body.promo_code) {
           const promoDetails = await Model.Promocode.findOne({
-            code: req.body.promo_code
+            code: req.body.promo_code,
           });
 
           if (!promoDetails) {
@@ -100,7 +104,7 @@ const userServices = {
           }
 
           const alreadyUsed = promoDetails.usedBy?.map((user) =>
-            user.toString()
+            user.toString(),
           );
 
           if (alreadyUsed?.includes(req.user._id.toString())) {
@@ -109,19 +113,20 @@ const userServices = {
 
           // ✅ Correct discount calculation
           const promoDiscount = (price * promoDetails.value) / 100;
-          price = price - promoDiscount;
-
+          discount += promoDiscount;
           // ✅ Mark promo as used
           await Model.Promocode.updateOne(
             { _id: promoDetails._id },
-            { $push: { usedBy: req.user._id } }
+            { $push: { usedBy: req.user._id } },
           );
+        }else if (req.user.role == 1) {
+          const roleDiscount = price * 0.1;
+          discount += roleDiscount;
         }
-        let paying_amount = price;
-        let discount = req.user.role == 1 ? paying_amount * 0.1 : 0;
-        req.body.post_paymnet = paying_amount;
-        req.body.total_payment = paying_amount - discount;
+        const total_payment = Math.max(price - discount, 0);
+        req.body.post_paymnet = price;
         req.body.discount = discount;
+        req.body.total_payment = total_payment;
       }
       const addData = await Model.Vehicle.create({
         ...req.body,
@@ -147,13 +152,13 @@ const userServices = {
       const updatePayment = await Model.Vehicle.findByIdAndUpdate(
         vehicleId,
         { $set: { is_payment_done: 1 } },
-        { new: true }
+        { new: true },
       );
       return successRes(
         res,
         200,
         "Vehicle payment done successfully",
-        updatePayment
+        updatePayment,
       );
     } catch (err) {
       return errorRes(res, 500, err.message);
@@ -173,7 +178,7 @@ const userServices = {
         res,
         200,
         "vehicle list fetched successfully",
-        allVehicles
+        allVehicles,
       );
     } catch (err) {
       return errorRes(res, 500, err.message);
@@ -193,7 +198,7 @@ const userServices = {
         res,
         200,
         "Vehicle details fetched successfully",
-        vehicleDetails
+        vehicleDetails,
       );
     } catch (err) {
       return errorRes(res, 500, err.message);
@@ -236,11 +241,11 @@ const userServices = {
       let vehicles;
       if (type) {
         vehicles = bikes.find(
-          (c) => c.company.toLowerCase() === vehicleName.toLowerCase()
+          (c) => c.company.toLowerCase() === vehicleName.toLowerCase(),
         );
       } else {
         vehicles = cars.find(
-          (c) => c.company.toLowerCase() === vehicleName.toLowerCase()
+          (c) => c.company.toLowerCase() === vehicleName.toLowerCase(),
         );
       }
 
@@ -287,11 +292,11 @@ const userServices = {
         blockBy: req.user._id,
       });
       const blockedUserIds = blockedUser.map((block) =>
-        block?.blockTo?.toString()
+        block?.blockTo?.toString(),
       );
       blockedUserIds.push(req.user._id.toString());
       const likeVehicleIds = likedCarList.map((like) =>
-        like?.vehicleId?.toString()
+        like?.vehicleId?.toString(),
       );
       const popularBrands = result.map(({ models, ...rest }) => rest);
       const mostlySearch = await Model.Search.find({}).sort({ count: 1 });
@@ -307,7 +312,7 @@ const userServices = {
           .lean();
       } else {
         let searchIds = mostlySearch.map((search) =>
-          search?.vehicleId?.toString()
+          search?.vehicleId?.toString(),
         );
         famousCars = await Model.Vehicle.find({
           _id: { $in: searchIds },
@@ -405,7 +410,7 @@ const userServices = {
           res,
           200,
           "Vehicle removed from liked list",
-          delVehicleFromLikedList
+          delVehicleFromLikedList,
         );
       }
     } catch (err) {
@@ -423,7 +428,7 @@ const userServices = {
         res,
         200,
         "Shortlisted vehicles fetched successfully",
-        vehicleList
+        vehicleList,
       );
     } catch (err) {
       return errorRes(res, 500, err.message);
@@ -455,7 +460,7 @@ const userServices = {
         userId: req.user._id,
       });
       const likeVehicleIds = likedCarList.map((like) =>
-        like?.vehicleId?.toString()
+        like?.vehicleId?.toString(),
       );
       for (let car of vehcileList) {
         let is_liked = 0;
@@ -490,7 +495,7 @@ const userServices = {
         {
           carList: [],
           bikeList: [],
-        }
+        },
       );
       return successRes(res, 200, "Bike car list", vehicleData);
     } catch (err) {
@@ -504,7 +509,7 @@ const userServices = {
       const updateRole = await Model.User.findByIdAndUpdate(
         req.user._id,
         { $set: { role: newRole } },
-        { new: true }
+        { new: true },
       );
       if (!updateRole) {
         return errorRes(res, 404, "User not found");
@@ -618,7 +623,7 @@ const userServices = {
   delVehicle: async (req, res) => {
     try {
       const delData = await Model.Vehicle.findByIdAndDelete(
-        req.params.vehicleId
+        req.params.vehicleId,
       );
       if (!delData) {
         return errorRes(res, 404, "Vehicle details not found");
@@ -650,7 +655,7 @@ const userServices = {
             ...req.body,
           },
         },
-        { new: true }
+        { new: true },
       );
       if (!updateData) {
         return errorRes(res, 404, "Vehicle details not found");
@@ -659,7 +664,7 @@ const userServices = {
         res,
         200,
         "Vehicle details updated successfully",
-        updateData
+        updateData,
       );
     } catch (err) {
       return errorRes(res, 500, err.message);
@@ -712,7 +717,7 @@ const userServices = {
       const updateData = await Model.User.findByIdAndUpdate(
         req.user._id,
         { $set: { ...req.body, is_enable_notification: notification_toggle } },
-        { new: true }
+        { new: true },
       );
       if (!updateData) {
         return errorRes(res, 404, "User not found");
@@ -721,7 +726,7 @@ const userServices = {
         res,
         200,
         "Notification settings updated successfully",
-        updateData
+        updateData,
       );
     } catch (err) {
       return errorRes(res, 500, err.message);
