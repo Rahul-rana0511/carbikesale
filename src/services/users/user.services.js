@@ -9,9 +9,15 @@ import crypto from "crypto";
 const userServices = {
   addPromocode: async (req, res) => {
     try {
-      const addData = await Model.Promocode.create({
-        ...req.body,
-      });
+      const addData = await Model.Promocode.findOneAndUpdate(
+        { code: req.body.code },
+        {
+          $set: {
+            code: req.body.new_code,
+          },
+        },
+        { new: true },
+      );
       return successRes(res, 200, "Promo code added successfully", addData);
     } catch (err) {
       return errorRes(res, 500, err.message);
@@ -119,7 +125,7 @@ const userServices = {
             { _id: promoDetails._id },
             { $push: { usedBy: req.user._id } },
           );
-        }else if (req.user.role == 1) {
+        } else if (req.user.role == 1) {
           const roleDiscount = price * 0.1;
           discount += roleDiscount;
         }
