@@ -104,18 +104,24 @@ const userServices = {
           const promoDetails = await Model.Promocode.findOne({
             code: req.body.promo_code,
           });
-
           if (!promoDetails) {
             return errorRes(res, 404, "Promo code not found or expired");
           }
+          const PROMO_EXPIRY_DAYS = 90;
+          const expiryDate = new Date(promoDetails.createdAt);
+          expiryDate.setDate(expiryDate.getDate() + PROMO_EXPIRY_DAYS);
 
-          const alreadyUsed = promoDetails.usedBy?.map((user) =>
-            user.toString(),
-          );
-
-          if (alreadyUsed?.includes(req.user._id.toString())) {
-            return errorRes(res, 400, "You already used this promo code");
+          if (new Date() > expiryDate) {
+            return errorRes(res, 400, "Promo code expired");
           }
+
+          // const alreadyUsed = promoDetails.usedBy?.map((user) =>
+          //   user.toString(),
+          // );
+
+          // if (alreadyUsed?.includes(req.user._id.toString())) {
+          //   return errorRes(res, 400, "You already used this promo code");
+          // }
 
           // ✅ Correct discount calculation
           const promoDiscount = (price * promoDetails.value) / 100;
